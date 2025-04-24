@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Console Test</title>
+</head>
+<body>
+  <h1>Open your browser console to see live socket data</h1>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:3000");
+
+    socket.on("connect", () => {
+      console.log("✅ Connected to server:", socket.id);
+    });
+
+    socket.on("game_update", (data) => {
+      console.log("📦 Game Update:", data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("❌ Disconnected from server");
+    });
+  </script>
+</body>
+</html>
