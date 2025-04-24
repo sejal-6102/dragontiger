@@ -23,7 +23,7 @@ const mysql = require('mysql2/promise');
 //     port: 3306
 // });
 const connection = mysql.createPool({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'myuser',
     password: 'mypassword',
     database: 'myapp_db',
