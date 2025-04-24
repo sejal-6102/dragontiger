@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-change="1">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dragon Tiger | Management Page</title> <!-- Changed Title -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <!-- Removed parity.css and vantjs.css unless needed -->
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/admin.css"> <!-- Ensure this path is correct -->
+
+    <style>
+        /* Add back essential styles if needed, removed some potentially unused ones */
+        .info-box-icon i {
+            /* Center icons better */
+            line-height: 90px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .direct-chat-messages {
+            height: auto; /* Adjust height as needed */
+            max-height: 60vh; /* Limit max height */
+            overflow-y: auto;
+        }
+        .thead-dark th {
+             background-color: #343a40;
+             color: #fff;
+        }
+    </style>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        <%- include('nav') %>
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Dragon Tiger Management</h1>
+                            <small id="currentRoundIdDisplay">Round: ---</small> <!-- Display Round ID -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="content">
+                <div class="container-fluid">
+
+                    <!-- Summary Row -->
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-danger elevation-1">
+                                    <i class="fas fa-coins"></i> <!-- Icon for total amount -->
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Bet Amount</span>
+                                    <span class="info-box-number" id="totalAmountDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon elevation-1" style="background-color: #c0392b;"><i
+                                        class="fas fa-dragon"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Dragon Amount</span>
+                                    <span class="info-box-number" id="dragonAmountDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon elevation-1" style="background-color: #2980b9;"><i
+                                        class="fas fa-paw"></i></span> <!-- Tiger paw -->
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tiger Amount</span>
+                                    <span class="info-box-number" id="tigerAmountDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon elevation-1" style="background-color: #f1c40f;"><i
+                                        class="fas fa-equals"></i></span> <!-- Tie Icon -->
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tie Amount</span>
+                                    <span class="info-box-number" id="tieAmountDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-success elevation-1">
+                                    <i class="fas fa-users"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Unique Users Betting</span>
+                                    <span class="info-box-number" id="totalUsersDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bet Details Table Row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card direct-chat direct-chat-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">Current Round Bet Details</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0"> <!-- Removed padding -->
+                                    <div class="direct-chat-messages"> <!-- Container for scrolling -->
+                                        <table class="table table-striped table-hover mb-0"> <!-- Removed margin -->
+                                            <thead class="thead-dark sticky-top"> <!-- Sticky header -->
+                                                <tr>
+                                                    <th>User Phone</th>
+                                                    <th>Amount</th>
+                                                    <th>Bet On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tableBody">
+                                                <!-- Bet rows will be inserted here -->
+                                                <tr>
+                                                    <td colspan="4" class="text-center p-5">Waiting for bets...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <small>Table updates in real-time via Socket.IO</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <script src="/plugins/jquery/jquery.min.js"></script>
+        <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+        <script src="/dist/js/adminlte.js"></script>
+        <!-- Removed mousewheel and raphael unless needed -->
+
+        <script>
+            const socket = io(); // Connect to Socket.IO server
+
+            // --- Helper Function to Format Time ---
+            function formatTime(timestamp) {
+                if (!timestamp) return 'N/A';
+                try {
+                    // Assuming timestamp is something Date can parse (ISO string, milliseconds)
+                    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                } catch (e) {
+                    console.error("Error formatting time:", timestamp, e);
+                    return 'Invalid Date';
+                }
+            }
+
+            // --- Function to Render Bet Rows ---
+            function renderBetsTable(bets) {
+                const tbody = $('.tableBody');
+                tbody.empty(); // Clear previous bets
+
+                if (!Array.isArray(bets) || bets.length === 0) {
+                     tbody.html('<tr><td colspan="4" class="text-center p-5">No bets placed in this round yet.</td></tr>');
+                    return;
+                }
+
+                 // Backend query already sorts by time DESC, so client-side sort might be redundant
+                 // Keep it if backend doesn't guarantee order or if you prefer client-side control.
+                 // bets.sort((a, b) => (new Date(b.time || 0)) - (new Date(a.time || 0)));
+
+                bets.forEach(bet => {
+                    const formattedAmount = typeof bet.amount === 'number' ? bet.amount.toLocaleString() : (bet.amount || 'N/A');
+
+                    // Add specific styling based on 'card' if desired
+                    let cardStyle = '';
+                    if (bet.card === 'Dragon') cardStyle = 'color: #c0392b; font-weight: bold;';
+                    else if (bet.card === 'Tiger') cardStyle = 'color: #2980b9; font-weight: bold;';
+                    else if (bet.card === 'Tie') cardStyle = 'color: #f1c40f; font-weight: bold;';
+
+                    let row = `
+                        <tr>
+                            <td>${bet.phone || 'N/A'}</td>
+                            <td>${formattedAmount}</td>
+                            <td style="${cardStyle}">${bet.card || 'N/A'}</td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+            }
+
+            // --- API Polling for Summary AND Bets ---
+            async function fetchAndUpdateSummaryAndBets() { // Renamed for clarity
+                try {
+                    const response = await fetch('/api/admin/current-round-summary'); // Ensure this path is correct
+                    if (!response.ok) {
+                         if (response.status === 404) {
+                            console.warn('API endpoint not found (404). Is the server running and router mounted?');
+                         } else {
+                              console.error(`API HTTP error! status: ${response.status}`);
+                         }
+                         // Clear fields and table on error or not found
+                         $('#totalAmountDisplay, #dragonAmountDisplay, #tigerAmountDisplay, #tieAmountDisplay, #totalUsersDisplay').text('0');
+                         $('#currentRoundIdDisplay').text('Round: Error');
+                         renderBetsTable([]); // Clear table
+                         return; // Exit if response not ok
+                    }
+
+                    const data = await response.json();
+
+                    // Check for the "No active round" message from API
+                    if (data.message) {
+                        console.log(data.message);
+                        $('#totalAmountDisplay, #dragonAmountDisplay, #tigerAmountDisplay, #tieAmountDisplay, #totalUsersDisplay').text('0');
+                        $('#currentRoundIdDisplay').text('Round: Waiting...');
+                        renderBetsTable([]); // Clear table
+                    }
+                    // Check if we received the expected structure with summary and bets
+                    else if (data.summary && data.summary.roundId !== undefined && Array.isArray(data.bets)) {
+                        const summary = data.summary;
+                        const bets = data.bets;
+
+                        // Update Summary Info Boxes
+                        $('#totalAmountDisplay').text(summary.totalAmount?.toLocaleString() || '0');
+                        $('#dragonAmountDisplay').text(summary.dragonAmount?.toLocaleString() || '0');
+                        $('#tigerAmountDisplay').text(summary.tigerAmount?.toLocaleString() || '0');
+                        $('#tieAmountDisplay').text(summary.tieAmount?.toLocaleString() || '0');
+                        $('#totalUsersDisplay').text(summary.uniqueUsers?.toLocaleString() || '0');
+                        $('#currentRoundIdDisplay').text(`Round: ${summary.roundId}`);
+
+                        // Update Bets Table using the data from the API
+                        renderBetsTable(bets);
+
+                    } else {
+                        // Handle unexpected data format
+                        console.warn("Received unexpected data format from API:", data);
+                        $('#totalAmountDisplay, #dragonAmountDisplay, #tigerAmountDisplay, #tieAmountDisplay, #totalUsersDisplay').text('0');
+                        $('#currentRoundIdDisplay').text('Round: Data Error');
+                        renderBetsTable([]); // Clear table
+                    }
+                } catch (error) {
+                    console.error('Error fetching round summary & bets:', error);
+                    $('#totalAmountDisplay').text('Error');
+                    $('#dragonAmountDisplay').text('Error');
+                    $('#tigerAmountDisplay').text('Error');
+                    $('#tieAmountDisplay').text('Error');
+                    $('#totalUsersDisplay').text('Error');
+                    $('#currentRoundIdDisplay').text('Round: API Error');
+                    renderBetsTable([]); // Clear table on fetch error
+                }
+            }
+
+            // --- Document Ready ---
+            $(document).ready(function () {
+                console.log("Document ready. Setting up UI and listeners.");
+
+                // Initial fetch for summary and bets
+                fetchAndUpdateSummaryAndBets();
+
+                // Set interval to periodically fetch summary and bet data
+                // Adjust interval based on how "live" you need the table via polling vs. sockets
+                const apiPollInterval = setInterval(fetchAndUpdateSummaryAndBets, 10000); // e.g., Every 10 seconds
+
+                // --- Socket Event Listeners ---
+
+                socket.on('connect', () => {
+                    console.log('Socket connected:', socket.id);
+                    // Optional: Could still request initial bets via socket as a fallback,
+                    // but the initial API call should handle it.
+                    // socket.emit('getInitialDragonTigerBets', (response) => { ... });
+                });
+
+                socket.on('disconnect', (reason) => {
+                    console.log('Socket disconnected:', reason);
+                     $('.tableBody').html('<tr><td colspan="4" class="text-center p-5">Disconnected. Waiting to reconnect...</td></tr>');
+                });
+
+                socket.on('connect_error', (error) => {
+                    console.error('Socket connection error:', error);
+                     $('.tableBody').html(`<tr><td colspan="4" class="text-center p-5">Connection Error: ${error.message}</td></tr>`);
+                });
+
+                 // Listen for new individual bets (triggered by backend)
+                 socket.on('newDragonTigerBet', (bet) => {
+                    console.log('New bet received via socket:', bet);
+                    // Fetch the latest summary and the *entire* updated bet list from the API
+                    // This ensures the table reflects the absolute latest state from the database
+                    fetchAndUpdateSummaryAndBets();
+
+                    // Removed the direct table manipulation (prepend) here,
+                    // as fetchAndUpdateSummaryAndBets() will refresh the whole table.
+                 });
+
+
+                 // Listen for the start of a new round
+                 socket.on('dragonTigerNewRound', (newRoundData) => {
+                    console.log("New round started:", newRoundData);
+                    // Immediately clear the table visually
+                    $('.tableBody').html('<tr><td colspan="4" class="text-center p-5">New round started. Waiting for bets...</td></tr>');
+                    // Fetch summary and bets for the new round from the API
+                    fetchAndUpdateSummaryAndBets();
+                    // Optionally update round ID display immediately if provided in newRoundData
+                    if(newRoundData && newRoundData.roundId) {
+                         $('#currentRoundIdDisplay').text(`Round: ${newRoundData.roundId}`);
+                    }
+                 });
+
+
+                // Optional: Clear interval on window unload
+                $(window).on('unload', function() {
+                    clearInterval(apiPollInterval); // Clear API polling interval
+                    if(socket) socket.disconnect(); // Disconnect socket on unload
+                });
+
+            });
+
+        </script>
+    </div>
+</body>
+
+</html>
