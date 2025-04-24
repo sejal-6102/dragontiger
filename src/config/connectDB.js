@@ -15,11 +15,18 @@
 
 const mysql = require('mysql2/promise');
 
+// const connection = mysql.createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',  // XAMPP's default root password is blank
+//     database: 'goagamesclub',
+//     port: 3306
+// });
 const connection = mysql.createPool({
     host: 'localhost',
-    user: 'root',
-    password: '',  // XAMPP's default root password is blank
-    database: 'goagamesclub',
+    user: 'myuser',
+    password: 'mypassword',
+    database: 'myapp_db',
     port: 3306
 });
 
