@@ -103,9 +103,109 @@ const login = async (req, res) => {
    }
 }
 
+// const register = async (req, res) => {
+//    let now = new Date().getTime()
+//    let { username, pwd, invitecode,otp} = req.body
+//    let id_user = randomNumber(10000, 99999)
+//    // let otp2 = randomNumber(100000, 999999)
+//    let name_user = "Member" + randomNumber(10000, 99999)
+//    let code = randomString(5) + randomNumber(10000, 99999)
+//    let ip = ipAddress(req)
+//    let time = timeCreate()
+//    console.log("hi");
+
+//    if(!invitecode){
+//       invitecode = "vpIgg59711";
+//    }
+ 
+//    if (!username || !pwd ||!otp) {
+//       console.log(username, pwd)
+//       return res.status(200).json({
+//          message: "ERROR!!!",
+//          status: false,
+//       })
+//    }
+
+//    if (username.length < 9 || username.length > 10 || !isNumber(username)) {
+//       return res.status(200).json({
+//          message: "phone error",
+//          status: false,
+//       })
+//    }
+
+//    try {
+//       const [check_u] = await connection.query("SELECT * FROM users WHERE phone = ?", [username])
+//       const [check_i] = await connection.query("SELECT * FROM users WHERE code = ? ", [invitecode])
+//       //   const [check_ip] = await connection.query("SELECT * FROM users WHERE ip_address = ? ", [ip])
+
+//       if (check_u.length == 1 && check_u[0].veri == 1) {
+//          return res.status(200).json({
+//             message: "Registered phone number",
+//             status: false,
+//          })
+//       } else {
+//          if(check_u[0].otp !== otp || check_u[0].time_otp - now <= 0){
+//             return res.status(200).json({
+//                message: "Invalid OTP",
+//                status: false,
+//             })
+//          }
+//          if (check_i.length == 1) {
+//             // if (check_ip.length <= 3) {
+//             let ctv = ""
+//             if (check_i[0].level == 2 || check_i[0] == 1) {
+//                ctv = check_i[0].phone
+//             } else {
+//                ctv = check_i[0].ctv
+//             }
+//             const sql = "UPDATE users SET id_user = ?,phone = ?,name_user = ?,password = ?, plain_password = ?, money = ?,code = ?,invite = ?,ctv = ?,veri = ?,otp = ?,ip_address = ?,status = ?,time = ? where phone = ?"
+//             await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 10, code, invitecode, ctv, 1, otp, ip, 1, time,username])
+//             await connection.execute("INSERT INTO point_list SET phone = ?", [username])
+
+//             let [check_code] = await connection.query("SELECT * FROM users WHERE invite = ? ", [invitecode])
+
+//             if (check_i.name_user !== "Admin") {
+//                let levels = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44]
+
+//                for (let i = 0; i < levels.length; i++) {
+//                   if (check_code.length >= levels[i]) {
+//                      await connection.execute("UPDATE users SET user_level = ? WHERE code = ?", [i + 1, invitecode])
+//                   } else {
+//                      break
+//                   }
+//                }
+//             }
+
+//             return res.status(200).json({
+//                message: "Registered successfully",
+//                status: true,
+//             })
+//             // } else {
+//             //    return res.status(200).json({
+//             //       message: "Registered IP address",
+//             //       status: false,
+//             //    })
+//             // }
+//          } else {
+//             const sql = "UPDATE users SET id_user = ?,phone = ?,name_user = ?,password = ?, plain_password = ?, money = ?,code = ?,veri = ?,otp = ?,ip_address = ?,status = ?,time = ? WHERE phone = ?"
+//             await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 0, code, 1, otp, ip, 1, time,username])
+//             await connection.execute("INSERT INTO point_list SET phone = ?", [username])
+
+//             return res.status(200).json({
+//                message: "Registered successfully",
+//                status: true,
+//             })
+//          }
+//       }
+//    } catch (error) {
+//       if (error) console.log(error)
+//    }
+// }
+
+
 const register = async (req, res) => {
    let now = new Date().getTime()
-   let { username, pwd, invitecode,otp} = req.body
+   let { username, pwd, invitecode, otp } = req.body
    let id_user = randomNumber(10000, 99999)
    // let otp2 = randomNumber(100000, 999999)
    let name_user = "Member" + randomNumber(10000, 99999)
@@ -114,11 +214,11 @@ const register = async (req, res) => {
    let time = timeCreate()
    console.log("hi");
 
-   if(!invitecode){
+   if (!invitecode) {
       invitecode = "vpIgg59711";
    }
- 
-   if (!username || !pwd ||!otp) {
+
+   if (!username || !pwd) {
       console.log(username, pwd)
       return res.status(200).json({
          message: "ERROR!!!",
@@ -137,19 +237,21 @@ const register = async (req, res) => {
       const [check_u] = await connection.query("SELECT * FROM users WHERE phone = ?", [username])
       const [check_i] = await connection.query("SELECT * FROM users WHERE code = ? ", [invitecode])
       //   const [check_ip] = await connection.query("SELECT * FROM users WHERE ip_address = ? ", [ip])
-
+      console.log(check_u, check_i, 'CHECK U DATA FROM BACKEND')
       if (check_u.length == 1 && check_u[0].veri == 1) {
          return res.status(200).json({
             message: "Registered phone number",
             status: false,
          })
-      } else {
-         if(check_u[0].otp !== otp || check_u[0].time_otp - now <= 0){
-            return res.status(200).json({
-               message: "Invalid OTP",
-               status: false,
-            })
-         }
+      }
+      else {
+         // if(check_u[0].otp !== otp || check_u[0].time_otp - now <= 0){
+         //    return res.status(200).json({
+         //       message: "Invalid OTP",
+         //       status: false,
+         //    })
+         // }
+         let otp = "0000"
          if (check_i.length == 1) {
             // if (check_ip.length <= 3) {
             let ctv = ""
@@ -159,7 +261,7 @@ const register = async (req, res) => {
                ctv = check_i[0].ctv
             }
             const sql = "UPDATE users SET id_user = ?,phone = ?,name_user = ?,password = ?, plain_password = ?, money = ?,code = ?,invite = ?,ctv = ?,veri = ?,otp = ?,ip_address = ?,status = ?,time = ? where phone = ?"
-            await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 10, code, invitecode, ctv, 1, otp, ip, 1, time,username])
+            await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 10, code, invitecode, ctv, 1, otp, ip, 1, time, username])
             await connection.execute("INSERT INTO point_list SET phone = ?", [username])
 
             let [check_code] = await connection.query("SELECT * FROM users WHERE invite = ? ", [invitecode])
@@ -187,9 +289,23 @@ const register = async (req, res) => {
             //    })
             // }
          } else {
-            const sql = "UPDATE users SET id_user = ?,phone = ?,name_user = ?,password = ?, plain_password = ?, money = ?,code = ?,veri = ?,otp = ?,ip_address = ?,status = ?,time = ? WHERE phone = ?"
-            await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 0, code, 1, otp, ip, 1, time,username])
-            await connection.execute("INSERT INTO point_list SET phone = ?", [username])
+            // const sql = "UPDATE users SET id_user = ?,phone = ?,name_user = ?,password = ?, plain_password = ?, money = ?,code = ?,veri = ?,otp = ?,ip_address = ?,status = ?,time = ? WHERE phone = ?"
+            // await connection.execute(sql, [id_user, username, name_user, md5(pwd), pwd, 0, code, 1, otp, ip, 1, time,username])
+            // await connection.execute("INSERT INTO point_list SET phone = ?", [username])
+            const sql = `
+  INSERT INTO users (
+    id_user, phone, name_user, password, plain_password, money,
+    code, veri, otp, ip_address, status, time, win_wallet
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+
+await connection.execute(sql, [
+  id_user, username, name_user, md5(pwd), pwd, 0,  // money = 0
+  code, 1, otp, ip, 1, time, 0                     // win_wallet = 0
+]);
+
+
+            await connection.execute("INSERT INTO point_list (phone) VALUES (?)", [username]);
 
             return res.status(200).json({
                message: "Registered successfully",
