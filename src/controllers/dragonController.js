@@ -10,6 +10,9 @@ const Dragon = async (io) => {
 };
 const userDekh = async (req,res) =>{
     const auth = req?.cookies?.auth || null;
+  if(!auth){
+     return res.status(400).json({ error: "Authentication token missing" });
+  }
     const [user] = await connection.execute('SELECT phone,money,win_wallet FROM users WHERE token = ?',[auth]);
     const query = `
   SELECT * 
@@ -19,7 +22,9 @@ const userDekh = async (req,res) =>{
 `;
 console.log("auth-------",user);
 
-
+if(user.length ===0){
+     return res.status(400).json({ error: "user not find" });
+  }
 const [result] = await connection.execute(query);
 const [betHistory] = await connection.execute(
     `SELECT ar.*, a.*, 
