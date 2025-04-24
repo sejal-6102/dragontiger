@@ -493,7 +493,7 @@
         $('#submit').click(async (e) => {
             e.preventDefault();
             let username = $('#username').val().trim();
-            let otp = $('#otp').val().trim();
+           // let otp = $('#otp').val().trim();
             let password = $('#password').val().trim();
             let invite = $('#invite').val().trim();
             // let telegram = $('#telegram').val().trim();
@@ -508,7 +508,7 @@
                         username: username,
                         pwd: password,
                         invitecode: invite,
-                        otp: otp,
+                        //otp: otp,
                     },
                     dataType: "json",
                     success: function (response) {
