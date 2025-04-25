@@ -5,7 +5,7 @@ let gameInitialized = false;
 let updateGameCoins = null;
 
 const placeFinalBetBtn = document.getElementById('place-final-bet-button');
-const apiUrl = 'https://bluedoller.online/api/webapi/GetUserInfo';
+const apiUrl = 'http://localhost:3000/api/webapi/GetUserInfo';
 
 let historyCurrentPage = 1;
 const historyItemsPerPage = 10;

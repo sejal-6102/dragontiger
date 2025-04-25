@@ -686,7 +686,7 @@ const addUserAccountBalance = async ({ money, phone, invite,id }) => {
          bonus = 15
       }
 
-      await connection.query("UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `phone` = ?", [money+bonus,money+bonus,phone])
+      await connection.query("UPDATE users SET money = money + ?, total_money = total_money + ?, win_wallet = win_wallet + ? WHERE `phone` = ?", [money+bonus,money+bonus,money+bonus,phone])
 
     
    }
@@ -696,7 +696,7 @@ const addUserAccountBalance = async ({ money, phone, invite,id }) => {
       // if(money>=500){
       //    bonus = money*0.3;
       // }
-      await connection.query("UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `phone` = ?", [money+bonus,money+bonus,phone])
+      await connection.query("UPDATE users SET money = money + ?, total_money = total_money + ?,win_wallet= win_wallet+ ? WHERE `phone` = ?", [money+bonus,money+bonus,money+bonus,phone])
    }
 
    await connection.query(`UPDATE recharge SET status = 1 WHERE id = ?`, [id])

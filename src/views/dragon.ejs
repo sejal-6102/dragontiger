@@ -346,14 +346,16 @@
                 'Content-Type': 'application/json',
               },
             });
-      
+           console.log(response,"ghjkl")
             if (response.ok) {
               const result = await response.json();
               console.log('API Response:', result);
       
               // Check if result contains win_wallet and update the DOMf
               if (result && result.data && result.data.win_wallet !== undefined) {
-                document.getElementById('coins').textContent = result.data.win_wallet;
+                console.log(result,"result hahahhahahhahahs")
+                document.getElementById('coins').textContent = result.data.win_wallet + result.data.money;
+              
               } else {
                 console.warn('win_wallet not found in response');
               }
