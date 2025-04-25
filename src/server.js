@@ -83,7 +83,7 @@ app.all('*', (req, res) => {
 });
 
 
-server.listen(port, () => {
+server.listen(port,"0.0.0.0", () => {
     console.log(`Server running on http://localhost:${port}`);
     console.log("JWT Secret Loaded:", YOUR_JWT_SECRET ? "Yes (First few chars: " + YOUR_JWT_SECRET.substring(0, 5) + "...)" : "NO - Using default!");
 });
