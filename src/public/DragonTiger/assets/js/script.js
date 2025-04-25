@@ -110,7 +110,7 @@ async function fetchBetHistory(phone, page = 1) {
     }
 
 
-    const historyApiUrl = `http://localhost:3000/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
+    const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
 
     try {
         if (!isIntervalFetch) console.log(`Fetching bet history: ${historyApiUrl}`);
