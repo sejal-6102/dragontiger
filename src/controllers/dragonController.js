@@ -11,7 +11,7 @@ const Dragon = async (io) => {
 const userDekh = async (req,res) =>{
     const auth = req?.cookies?.auth || null;
   if(!auth){
-     return res.status(400).json({ error: "Authentication token missing" });
+    //  return res.status(400).json({ error: "Authentication token missing" });
   }
     const [user] = await connection.execute('SELECT phone,money,win_wallet FROM users WHERE token = ?',[auth]);
     const query = `

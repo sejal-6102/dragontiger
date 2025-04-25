@@ -461,7 +461,7 @@
         }
 
         function validateForm(username, password, otp, checkbox, text) {
-            if (!username || !invite || !checkbox || !password) {
+            if (!username || !password) {
                 alertMess(text);
                 return false;
             } else {
@@ -495,10 +495,11 @@
             let username = $('#username').val().trim();
            // let otp = $('#otp').val().trim();
             let password = $('#password').val().trim();
-            let invite = $('#invite').val().trim();
+            let invite = $('#invite').val();
             // let telegram = $('#telegram').val().trim();
             //let checkbox = $('.van-checkbox__icon').hasClass('van-checkbox__icon--checked');
-            let status = validateForm(username, password, otp, 'Please fill in the required section');
+            let status = validateForm(username, password, 'Please fill in the required section');
+            console.log(status,"status")
             if (status) {
                 $('.van-overlay').fadeIn(10);
                 $.ajax({
@@ -512,6 +513,7 @@
                     },
                     dataType: "json",
                     success: function (response) {
+                        console.log(response,"response")
                         if (response.status === true) {
                             $('.van-overlay').fadeOut(300);
                             $('.Loading').fadeIn(10);

@@ -71,7 +71,7 @@ socketHandler(io);
 socketIoController.sendMessageAdmin(io);
 aviatorController.Aviator(io);        
 Dragon.Dragon(io);
-Dragon.userDekh(io);
+// Dragon.userDekh(io);
 
 
 cronJobContronler.cronJobGame1p(io);
