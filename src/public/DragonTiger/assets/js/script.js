@@ -110,7 +110,7 @@ async function fetchBetHistory(phone, page = 1) {
     }
 
 
-    const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
+    const historyApiUrl = `http://localhost:3000/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
 
     try {
         if (!isIntervalFetch) console.log(`Fetching bet history: ${historyApiUrl}`);
@@ -256,9 +256,10 @@ async function fetchUserInfo() {
 
         if (response.ok) {
             const result = await response.json();
+            console.log(result,"rtyugioptfguhij")
             if (result && result.data && result.data.win_wallet !== undefined) {
                 dataSuccessfullyFetched = true;
-                fetchedCoins = result.data.win_wallet;
+                fetchedCoins = result.data.win_wallet + result.data.money_user;
                 fetchedPhone = result.data.phone_user || null;
 
                 document.getElementById('coins').textContent = Math.floor(fetchedCoins);
