@@ -351,7 +351,7 @@
               const result = await response.json();
               console.log('API Response:', result);
       
-              // Check if result contains win_wallet and update the DOM
+              // Check if result contains win_wallet and update the DOMf
               if (result && result.data && result.data.win_wallet !== undefined) {
                 document.getElementById('coins').textContent = result.data.win_wallet;
               } else {
