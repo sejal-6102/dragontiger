@@ -5,7 +5,7 @@ let gameInitialized = false;
 let updateGameCoins = null;
 
 const placeFinalBetBtn = document.getElementById('place-final-bet-button');
-const apiUrl = 'http://localhost:3000/api/webapi/GetUserInfo';
+const apiUrl = 'https://bluedoller.online/api/webapi/GetUserInfo';
 
 let historyCurrentPage = 1;
 const historyItemsPerPage = 10;
@@ -110,7 +110,7 @@ async function fetchBetHistory(phone, page = 1) {
     }
 
 
-    const historyApiUrl = `http://localhost:3000/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
+    const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
 
     try {
         if (!isIntervalFetch) console.log(`Fetching bet history: ${historyApiUrl}`);
