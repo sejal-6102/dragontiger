@@ -1330,7 +1330,7 @@ textarea {
    transform: translate(-50%);
    -webkit-user-select: none;
    user-select: none;
-   background-color: #c80d0d;
+   background-color: #0c0b0b;
    z-index: 100;
 }
 .navbar-fixed.wc .navbar__content-left[data-v-4bdb4e87],

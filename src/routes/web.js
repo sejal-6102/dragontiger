@@ -127,8 +127,11 @@ router.post('/admin/manager/settings/increaseWallet',adminController.middlewareA
    router.get("/wallet/recharge", middlewareController, homeController.rechargePage)
    router.get("/wallet/withdrawal", middlewareController, homeController.withdrawalPage)
    router.get("/wallet/rechargerecord", middlewareController, homeController.rechargerecordPage)
+   router.get("/wallet/transactionhistory", middlewareController, homeController.transactionhistory)
    router.get("/wallet/withdrawalrecord", middlewareController, homeController.withdrawalrecordPage)
    router.get("/wallet/addBank", middlewareController, homeController.addBank)
+
+   router.get("/wallet/bethistory", middlewareController, homeController.bethistory)
 
    router.get("/wallet/paynow/manual_upi", middlewareController, paymentController.initiateManualUPIPayment)
    router.get("/wallet/paynow/manual_usdt", middlewareController, paymentController.initiateManualUSDTPayment)

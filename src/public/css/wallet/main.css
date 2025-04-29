@@ -699,6 +699,7 @@ html,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acr
     font: inherit;
     font-size: 100%;
     vertical-align: baseline;
+    color:black;
     border: 0
 }
 
@@ -969,7 +970,8 @@ img[data-v-7b9b9922] {
 .navbar-title[data-v-106b99c8] {
     font-size: .42667rem;
     flex: 1;
-    text-align: center
+    text-align: center;
+    color:white
 }
 
 .navbar .bank[data-v-106b99c8] {
@@ -5718,7 +5720,7 @@ img[data-v-7b9b9922] {
     min-width: 2rem;
     margin-left: .13333rem;
     color: #fff;
-    background: #34be8a;
+    background-color:rgb(141, 9, 9);
     border-radius: .13333rem;
     font-size: .37333rem;
     line-height: .66667rem;
@@ -5787,7 +5789,7 @@ img[data-v-7b9b9922] {
 }
 
 .rechargeh__container-content__item-body>div span[data-v-001ac065]:first-of-type {
-    color: #888;
+    color: black;
     font-size: .34667rem
 }
 
@@ -7042,8 +7044,8 @@ img[data-v-7b9b9922] {
 .rechargeh__container-content__item-header span[data-v-013f3e84]:first-of-type {
     margin-left: .13333rem;
     color: #fff;
-    background: #4781ff;
-    border: .01333rem solid #4781ff;
+    background-color:rgb(141, 9, 9);
+    border: .01333rem solid rgb(141, 20, 29);
     border-radius: .13333rem
 }
 
@@ -7097,7 +7099,7 @@ img[data-v-7b9b9922] {
 }
 
 .rechargeh__container-content__item-body>div:last-of-type span[data-v-013f3e84]:last-of-type {
-    color: #aeb0c6;
+    color: black;
     max-width: 70%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7111,12 +7113,14 @@ img[data-v-7b9b9922] {
 
 .rechargeh__container-content__item-body>div span[data-v-013f3e84]:first-of-type {
     -webkit-clip-path: polygon(0 0,100% 0,92% 100%,0 100%);
-    clip-path: polygon(0 0,100% 0,92% 100%,0 100%)
+    clip-path: polygon(0 0,100% 0,92% 100%,0 100%);
+    color:black
 }
 
 .rechargeh__container-content__item-body>div span[data-v-013f3e84]:nth-of-type(2) {
     margin-left: auto;
-    text-align: right
+    text-align: right;
+    color:black
 }
 
 .rechargeh__container-content__item-body>div img[data-v-013f3e84] {

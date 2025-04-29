@@ -2,7 +2,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="icon" type="image/svg+xml"
+	<link rel="icon" type="image/svg+xml">
 		<link rel="shortcut icon" href="/images/banners/logo.png" type="image/x-icon">
 	<meta name="google" content="notranslate">
 	<meta name="robots" content="noindex,nofollow">
@@ -28,14 +28,14 @@
 	<link rel="modulepreload" crossorigin="" href="/assets/js/config-e5bd8d13.js">
 	<link rel="modulepreload" crossorigin="" href="/assets/js/page-activity-f37b55a3.js">
 	<link rel="modulepreload" crossorigin="" href="/assets/js/page-home-71e7476c.js">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/modules-8b01ca49.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-activity-323fd479.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-home-fe71694e.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/index-0d5f8a5b.css">
+	<link rel="stylesheet" href="/Goa Games_files/modules-8b01ca49.css">
+	<link rel="stylesheet" href="/Goa Games_files/page-activity-323fd479.css">
+	<link rel="stylesheet" href="/index_files/page-home-fe71694e.css">
+	<link rel="stylesheet" href="/Goa Games_files/index-0d5f8a5b.css">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-register-1a37903f.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-login-65aad3be.js">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-login-b269684e.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/index-51bceb36.css">
+	<link rel="stylesheet" href="/Goa Games_files/page-login-b269684e.css">
+	<!-- <link rel="stylesheet" href="/Goa Games_files/index-51bceb36.css"> -->
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/home-924519eb.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/activity-a7834489.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/promotion-31aa080a.js">
@@ -46,12 +46,12 @@
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/noticeBarHot-a102d4ab.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-promotion-10c2bb8e.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-main-14f75a5b.js">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-main-f11ddcbf.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-promotion-60a12a81.css">
+	<!-- <link rel="stylesheet" href="https://goagame.com/assets/css/page-main-f11ddcbf.css">
+	<link rel="stylesheet" href="https://goagame.com/assets/css/page-promotion-60a12a81.css"> -->
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-wallet-12d7ef96.js">
 	<link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-test-5c43c175.js">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-test-f69268d7.css">
-	<link rel="stylesheet" href="https://goagame.com/assets/css/page-wallet-e0a0b50f.css">
+	<link rel="stylesheet" href="/Goa Games_files/page-test-f69268d7.css">
+	<!-- <link rel="stylesheet" href="https://goagame.com/assets/css/page-wallet-e0a0b50f.css"> -->
 	<style type="text/css">
 		.eruda-search-highlight-block {
 			display: inline
@@ -1254,7 +1254,824 @@
 			transform: rotate(180deg);
 		}
 	</style>
-</head>
+
+
+<style>
+
+
+
+/* ======================================== */
+/* Base Styles (Mobile First)              */
+/* ======================================== */
+
+/* Basic Body Styles */
+body {
+    font-family: 'Roboto', 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f8; /* Light background for contrast */
+    color: #333;
+    font-size: 12px; /* Default mobile size - REMOVE INLINE STYLE from body */
+    line-height: 1.5; /* Improve readability */
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Needed for absolute positioning of fixed elements like tabbar */
+}
+
+/* --- SVG Definitions --- */
+/* Hide the SVG definitions block */
+body > svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* --- Loading / Skeleton Styles --- */
+/* (Initially hidden by inline style `display: none;` in HTML) */
+.ar-loading-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 9999;
+    display: flex; /* Use flex to center content */
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-wrapper {
+    text-align: center;
+}
+
+.loading-animat svg {
+    width: 80px;
+    height: 80px;
+}
+
+/* Loading animation dots */
+.com__box {
+    /* Add styles if this becomes visible */
+}
+.loading {
+    position: relative;
+    width: 60px; /* Adjust size */
+    height: 60px;
+}
+.shape {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #4782ff; /* Theme color */
+    border-radius: 50%;
+    animation: loadingAnimation 1.2s infinite ease-in-out both;
+}
+.shape-1 { top: 0; left: 0; animation-delay: -1.1s; }
+.shape-2 { top: 0; right: 0; animation-delay: -0.9s; }
+.shape-3 { bottom: 0; right: 0; animation-delay: -0.7s; }
+.shape-4 { bottom: 0; left: 0; animation-delay: -0.5s; }
+
+@keyframes loadingAnimation {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* Skeleton Styles */
+.skeleton-wrapper {
+    padding: 15px;
+}
+.van-skeleton {
+    margin-bottom: 20px;
+}
+.van-skeleton--animate .van-skeleton__content > *,
+.van-skeleton--animate .van-skeleton-avatar {
+  animation: van-skeleton-animation 1.2s ease-in-out infinite;
+}
+@keyframes van-skeleton-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+.van-skeleton-avatar {
+    background-color: #f2f3f5;
+    margin-right: 12px;
+    width: 32px;
+    height: 32px;
+}
+.van-skeleton-avatar--round {
+    border-radius: 50%;
+}
+.van-skeleton__content {
+    flex: 1;
+}
+.van-skeleton-title {
+    height: 16px;
+    background-color: #f2f3f5;
+    margin-bottom: 8px;
+    width: 40%;
+}
+.van-skeleton-paragraph {
+    height: 16px;
+    background-color: #f2f3f5;
+    margin-top: 12px;
+    border-radius: 2px;
+}
+
+/* --- Wallet Container --- */
+.wallet-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow it to take available space */
+   /* Space for the fixed tabbar + a bit extra */
+}
+
+/* --- Wallet Header --- */
+.wallet-container-header {
+    background: linear-gradient(90deg, rgb(141, 9, 9)0%, rgb(129, 39, 39)100%);
+    color: white;
+    padding-bottom: 35px; /* Increased padding */
+    position: relative;
+}
+
+/* Navbar Styles */
+.navbar {
+    /* Container if needed */
+}
+
+.navbar-fixed {
+    /* Background is set inline */
+    position: sticky; /* Keep navbar at top if content scrolls */
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+.navbar__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px; /* Standard navbar height */
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.navbar__content-left,
+.navbar__content-right {
+    display: flex;
+    align-items: center;
+    min-width: 40px; /* Ensure space for icons */
+}
+
+.navbar__content-left .van-icon-arrow-left {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar__content-center {
+    flex-grow: 1;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.navbar__content-title {
+    font-size: 17px; /* Slightly larger */
+    font-weight: 500; /* Medium weight */
+}
+
+/* Header Belly (Balance Area) */
+.wallet-container-header-belly {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 15px 15px 15px;
+    text-align: center;
+}
+
+.wallet-container-header-belly img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+    border-radius: 50%; /* Make image circular if desired */
+    object-fit: cover;
+}
+
+.wallet-container-header-belly .money {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.wallet-container-header-belly span {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Money placeholder */
+.money:empty::before {
+    content: "₹0.00"; /* Default text if empty */
+    opacity: 0.8; /* Make it slightly dimmer */
+    font-weight: normal; /* Adjust weight for placeholder */
+}
+
+/* --- Wallet Content Area --- */
+.wallet-container-content {
+    background-color: #ffffff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: -20px; /* Pull content up over the header */
+    padding: 20px 15px;
+    position: relative; /* Needed for margin-top pull */
+    z-index: 1;
+    flex-grow: 1;
+}
+
+.container {
+    /* Container inside content if needed */
+}
+
+/* Progress Bars Section */
+.progressBars {
+    display: flex;
+    /* justify-content: space-around; Use space-around if two bars */
+    justify-content: center; /* Centering since there's only one in the HTML */
+    align-items: flex-start; /* Align tops */
+    margin-bottom: 25px;
+    text-align: center;
+    flex-wrap: wrap; /* Allow wrapping on very small screens if needed */
+    gap: 20px; /* Add gap between items if they wrap */
+}
+
+.progressBarsL,
+.progressBarsR { /* Style both even if R is commented out */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 45%; /* Approx width for two bars */
+    min-width: 120px; /* Prevent getting too small */
+}
+/* Adjust if only one bar is present */
+.progressBarsL:only-child {
+     flex-basis: auto; /* Let it take natural width when centered */
+}
+
+
+.van-circle {
+    width: 85px; /* Slightly larger */
+    height: 85px;
+    position: relative; /* For text positioning */
+    margin-bottom: 10px;
+}
+
+.van-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Start circle from top */
+}
+
+.van-circle__layer {
+    /* Base circle path style */
+    stroke: #f0f0f0; /* Lighter grey */
+}
+
+.van-circle__hover {
+    /* Progress path style */
+    transition: stroke-dasharray 0.6s ease; /* Smooth animation */
+}
+
+.van-circle__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px; /* Slightly smaller */
+    font-weight: bold;
+    color: #444;
+}
+
+.progressBars h3 {
+    margin: 8px 0 4px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    word-break: break-all; /* Prevent long numbers from overflowing */
+}
+.progressBars h3 .money {
+    font-size: inherit; /* Match h3 */
+    font-weight: 600;
+}
+
+
+.progressBars span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Recycle Button (Commented out in HTML) */
+.recycleBtnD {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.recycleBtn {
+    background: linear-gradient(90deg, rgb(71, 130, 255) 0%, rgb(45, 151, 255) 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+.recycleBtn:active {
+    transform: scale(0.98);
+}
+
+
+/* User Detail (Action Buttons) */
+.userDetail {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Align to top */
+    padding: 25px 0;
+    /* border-top: 1px solid #eee; */ /* Optional separator */
+    margin-top: 15px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens if needed */
+    gap: 15px 5px; /* Add vertical and horizontal gap */
+}
+
+.userDetail > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    flex: 1 1 80px; /* Allow growing, shrinking, base width */
+    min-width: 75px; /* Minimum width before wrapping */
+    max-width: 25%; /* Prevent overcrowding on wider screens */
+    padding: 0 5px; /* Small spacing */
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+}
+.userDetail > div:active {
+    transform: scale(0.95); /* Click effect */
+}
+
+
+.userDetail .imgD {
+    width: 44px; /* Icon container size */
+    height: 44px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f8fa; /* Light background for icon container */
+    border-radius: 50%;
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.userDetail .imgD img {
+    width: 26px; /* Actual icon size */
+    height: 26px;
+}
+
+.userDetail span {
+    font-size: 12px; /* Match body inline style */
+    color: #555;
+    line-height: 1.3;
+}
+
+/* --- Customer Service Button --- */
+.customer#customerId {
+    position: fixed;
+    bottom: 75px; /* Above the tabbar */
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    background-color: #fff; /* White background */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 101; /* Above content, below potential modals */
+    transition: transform 0.2s ease;
+}
+.customer#customerId:active {
+    transform: scale(0.95); /* Click effect */
+}
+
+.customer#customerId img {
+    width: 30px;
+    height: 30px;
+}
+
+/* --- Tabbar --- */
+.tabbar__container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Standard tabbar height */
+    background-color: #ffffff;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.08); /* Subtle top shadow */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+}
+
+.tabbar__container-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* Equal width */
+    color: #757575; /* Default inactive color - slightly darker grey */
+    cursor: pointer;
+    position: relative; /* Needed for promotion button positioning */
+    height: 100%;
+    padding-top: 5px; /* Slight padding top */
+    box-sizing: border-box;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+.tabbar__container-item:active {
+    transform: scale(0.95); /* Click effect */
+}
+
+.tabbar__container-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    transition: fill 0.2s ease, stroke 0.2s ease;
+}
+.tabbar__container-item svg path {
+    fill: #757575; /* Default fill for icons */
+}
+.tabbar__container-item svg.wallet path,
+.tabbar__container-item svg.wallet circle {
+    stroke: #757575; /* Default stroke for wallet icon */
+    fill: none;
+}
+.tabbar__container-item svg.wallet path[fill-rule="evenodd"] {
+     fill: #757575; /* Default fill for parts of wallet icon */
+     stroke: none;
+}
+
+.tabbar__container-item span {
+    font-size: 10px;
+}
+
+.tabbar__container-item.active {
+    color: #4782ff; /* Active color (matching header blue) */
+}
+
+.tabbar__container-item.active svg path {
+    fill: #4782ff; /* Active fill color */
+}
+/* Specific active state for wallet icon (stroke) */
+.tabbar__container-item.active svg.wallet path,
+.tabbar__container-item.active svg.wallet circle {
+    stroke: #4782ff;
+    fill: none;
+}
+.tabbar__container-item.active svg.wallet path[fill-rule="evenodd"] {
+    fill: #4782ff; /* Active fill for parts of wallet icon */
+    stroke: none;
+}
+
+
+/* Promotion Button Special Styling */
+.tabbar__container-item:nth-child(3) { /* Assuming promotion is the 3rd item */
+    margin-top: -18px; /* Pull the promotion button up */
+}
+
+.tabbar__container-item:nth-child(3) svg {
+    width: 38px; /* Larger icon size */
+    height: 38px;
+    margin-bottom: 2px;
+}
+/* Specific active/inactive state for promotion icon (uses fill="white" in definition) */
+.tabbar__container-item:nth-child(3) svg path {
+     fill: #FF6B6B; /* Make the base promotion icon a color */
+}
+.tabbar__container-item:nth-child(3).active svg path {
+     fill: #4782ff; /* Active color */
+}
+
+
+.promotionBg {
+    position: absolute;
+    width: 56px; /* Background circle size */
+    height: 56px;
+    background-color: #ffffff; /* Same as tabbar */
+    border-radius: 50%;
+    top: -13px; /* Position it behind the raised icon */
+    z-index: -1; /* Behind the icon itself */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Van Popup/Toast Style --- */
+.van-popup.van-toast {
+    background-color: rgba(50, 50, 50, 0.85); /* Slightly darker semi-transparent */
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    display: inline-flex; /* Allow icon and text side-by-side if desired, or keep column */
+    align-items: center;
+    flex-direction: column; /* Stack icon and text */
+    text-align: center;
+    max-width: 85%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.van-toast__icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    line-height: 1;
+}
+
+.van-toast__text {
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word; /* Ensure long messages wrap */
+}
+
+/* Vant Icons (if needed, e.g., for fail icon) */
+/* You might need to include Vant's icon font or define specific icons */
+.van-icon-fail::before {
+    /* content: '\F04E'; Example icon code */
+    /* font-family: 'vant-icon'; Example font family */
+    color: #ff4d4f; /* Standard error red */
+}
+
+/* ======================================== */
+/* Responsive Adjustments (Tablets & Up)   */
+/* ======================================== */
+
+@media (min-width: 768px) {
+    body {
+        font-size: 14px; /* Increase base font size for tablets */
+    }
+
+    /* Center the main content area */
+    .wallet-container {
+        max-width: 720px; /* Limit width on tablets */
+        margin: 0 auto; /* Center the container */
+        padding-bottom: 0; /* Remove bottom padding if tabbar is hidden/changed */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Optional subtle shadow for container */
+        border-radius: 0; /* Reset border radius if needed */
+        background-color: #fff; /* Ensure background is white for content */
+    }
+
+     /* Adjust header */
+    .wallet-container-header {
+         border-top-left-radius: 0; /* Reset radius if container is centered */
+         border-top-right-radius: 0;
+         padding-bottom: 40px;
+    }
+     .navbar__content {
+         height: 50px;
+         padding: 0 20px;
+     }
+     .navbar__content-title {
+         font-size: 18px;
+     }
+    .wallet-container-header-belly img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+    .wallet-container-header-belly .money {
+        font-size: 30px;
+    }
+    .wallet-container-header-belly span {
+        font-size: 15px;
+    }
+
+    /* Adjust content area */
+    .wallet-container-content {
+        padding: 30px 25px;
+        margin-top: -25px; /* Adjust overlap */
+        border-top-left-radius: 25px; /* Slightly larger radius */
+        border-top-right-radius: 25px;
+    }
+
+    /* Stack progress bars vertically */
+    .progressBars {
+        flex-direction: column;
+        align-items: center; /* Center items vertically */
+        gap: 30px; /* Increase gap between bars */
+    }
+    .progressBarsL,
+    .progressBarsR {
+        flex-basis: auto; /* Reset basis */
+        width: 80%; /* Make them wider */
+        max-width: 300px; /* Limit max width */
+    }
+    .van-circle {
+        width: 100px; /* Larger circles */
+        height: 100px;
+    }
+     .van-circle__text {
+        font-size: 18px;
+     }
+    .progressBars h3 {
+        font-size: 17px;
+    }
+    .progressBars span {
+        font-size: 13px;
+    }
+
+
+    /* User details adjustments */
+    .userDetail {
+        padding: 30px 0;
+        margin-top: 20px;
+        gap: 20px 10px; /* Increase gap */
+    }
+    .userDetail > div {
+        flex-basis: 22%; /* Adjust basis for 4 items */
+        min-width: 100px;
+    }
+    .userDetail .imgD {
+        width: 50px;
+        height: 50px;
+    }
+    .userDetail .imgD img {
+        width: 30px;
+        height: 30px;
+    }
+    .userDetail span {
+        font-size: 13px;
+    }
+
+    /* Fixed elements may need adjustments or hiding */
+    .customer#customerId {
+        /* Consider hiding or repositioning for tablets/desktops */
+         /* Example: hide */
+         /* display: none; */
+         /* Example: reposition */
+         right: 30px;
+         bottom: 30px;
+         width: 55px;
+         height: 55px;
+    }
+     .customer#customerId img {
+         width: 32px;
+         height: 32px;
+     }
+
+    .tabbar__container {
+        /* Tabbar is often replaced by sidebar navigation on larger screens */
+        /* For CSS-only, we might keep it or hide it */
+        /* Example: hide */
+         /* display: none; */
+         /* Example: keep but style differently */
+         max-width: 720px; /* Match container width */
+         left: 50%;
+         transform: translateX(-50%); /* Center it */
+         height: 65px;
+    }
+    .tabbar__container-item svg {
+        width: 26px;
+        height: 26px;
+    }
+    .tabbar__container-item span {
+        font-size: 11px;
+    }
+     /* Promotion Button Adjustments */
+    .tabbar__container-item:nth-child(3) {
+        margin-top: -20px;
+    }
+    .tabbar__container-item:nth-child(3) svg {
+        width: 42px;
+        height: 42px;
+    }
+    .promotionBg {
+        width: 60px;
+        height: 60px;
+        top: -15px;
+    }
+}
+
+/* ======================================== */
+/* Responsive Adjustments (Desktops & Up)  */
+/* ======================================== */
+
+@media (min-width: 1024px) {
+    body {
+        font-size: 15px; /* Further increase base font size */
+    }
+
+    .wallet-container {
+        max-width: 960px; /* Increase max-width for desktops */
+    }
+
+    .navbar__content {
+         height: 55px;
+         padding: 0 25px;
+    }
+    .navbar__content-title {
+         font-size: 19px;
+    }
+
+    .wallet-container-header-belly img {
+        width: 75px;
+        height: 75px;
+    }
+    .wallet-container-header-belly .money {
+        font-size: 34px;
+    }
+    .wallet-container-header-belly span {
+        font-size: 16px;
+    }
+
+    .wallet-container-content {
+        padding: 35px 30px;
+    }
+
+    /* Progress Bars */
+    .progressBarsL,
+    .progressBarsR {
+        width: 70%;
+        max-width: 350px;
+    }
+    .van-circle {
+        width: 110px;
+        height: 110px;
+    }
+     .van-circle__text {
+        font-size: 20px;
+     }
+    .progressBars h3 {
+        font-size: 18px;
+    }
+    .progressBars span {
+        font-size: 14px;
+    }
+
+    /* User details */
+    .userDetail > div {
+        min-width: 120px;
+    }
+     .userDetail .imgD {
+        width: 55px;
+        height: 55px;
+    }
+    .userDetail .imgD img {
+        width: 32px;
+        height: 32px;
+    }
+    .userDetail span {
+        font-size: 14px;
+    }
+
+    /* Fixed elements are often hidden on desktop */
+     .customer#customerId {
+         /* display: none; */ /* Uncomment to hide */
+         right: 40px;
+         bottom: 40px;
+     }
+
+     .tabbar__container {
+         /* display: none; */ /* Uncomment to hide */
+         max-width: 960px; /* Match container */
+     }
+}
+
+
+/* ======================================== */
+/* Utility Classes (Optional)             */
+/* ======================================== */
+.block-click {
+    pointer-events: none; /* Prevents clicks during animation */
+}
+
+/* Add specific class for animation if needed */
+.van-image.action {
+    /* Example animation */
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+	</style>
+
+	</head>
 
 <body class="" style="font-size: 12px;">
 	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -2781,8 +3598,7 @@
 		<div data-v-4109dec7="" class="wallet-container" style="--481e2ff7: 'Roboto', 'Inter', sans-serif;">
 			<div data-v-4109dec7="" class="wallet-container-header">
 				<div data-v-4bdb4e87="" data-v-4109dec7="" class="navbar" style="--7b60c591: #ffffff;">
-					<div data-v-4bdb4e87="" class="navbar-fixed"
-						style="background: linear-gradient(90deg, rgb(71, 130, 255) 0%, rgb(45, 151, 255) 100%);">
+					<div data-v-4bdb4e87="" class="navbar-fixed">
 						<div data-v-4bdb4e87="" class="navbar__content">
 							<div data-v-4bdb4e87="" onclick="location.href='/home'" class="navbar__content-left"><i
 									data-v-4bdb4e87=""
@@ -2856,25 +3672,25 @@
 							<div data-v-4109dec7="" onclick="location.href='/wallet/recharge'" class="imgD"><img
 									data-v-4109dec7=""
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAbFBMVEUAAAD3eAD3dwD4dgD3dwD5dwD5dwD4dgDscAD0bwD5dwD5dgD5dgD4dwD4dwD4dwD4dwD5dwD6dwD2eAD4dwD4dwD4dwD4eAD3eAD4dgD/dAD3dQD5dwD3dgD4dwD5eQD5dwD4dwD7dgD4dwBP9FlIAAAAI3RSTlMAZsyZTMVypgoS9o17a71A359fOeqvlFkyJh8a0YZULYTYQv7Q60QAAAKzSURBVGje7dbtdqJADIDhxCAMHwMKFUQUtdz/PW63lsbuOnyHHz3z3MB7MiYewLIs69dTTuTFm03shXhUsBqFH1FGRQWrcNoso9oHcbh5IQj2V5Dlvurumg/nFATh5pWg+bTbn0CI87J7br7tE5BQxS/Db82TXSowdtgxMAv2J9mH5tX6z8I7ftiYVutF+rT6wJxee2BeM9GB741Z6AsO/NZ02J0EBuZbki17Y1aLnWe+tso2o1aLhTBd6bgUjxyYJTBR5hLRfuzALJ6YvdBfB+MtyYxcufSwHX1LbBONXrB3ao2/JfZG5IzbZJda8fiBWUBEesTQ/oUeJq4W84jo5k/oTr0lDnN5RNe8WsHgMJeHdmffEofppgaEXWITV4vRFxd6OfTEm3hLfE6t996HpiUH3lGr98MgIjb1ltiWaOBjZ/TsMO2W2IFYCV0uRLNviQX0xJ098L0Z6k40cGR3qdXil2bugJXm1drGe+8f2wHO96B9aaYGvnS89UIXJ4vyPKcf3oe9dBhpnCsKh701MZ51Hvdp6hAMSmrlEbLlpq76PndCjQvS30NnhnBNDzeNy4rooTaENX2KkC1bTjuX+oYCbrzWpnCIIsK+cK5RRJr3hCMU4naHLygm6gxrFKPzjvAFBUUdYY2CtDkcoqjQGI5QVGQMaxSlTWGNwrQhnKKw1BCuUVhtCDv40+8JOzZsw19s2IZt2IYHhxM0kA5nKCwxhK8oLDOESxR2NYR9FHYyhBUK88GgQFnAVrwnvqbV1zoDE4WiKjByUFABZkcUlABb8a35mFbba97p9Ufm1Vr/V06gmypQRKGgh48iSmBr/n0dYYDj2l0ur9xlVYELSq8wmEpwMY6CMZSDiyhKGEsl6fxpK5jklNQ4WepcFUynqvKYOPWY4YvCSbJSgWVZ1m/zB0VXvxYJRII+AAAAAElFTkSuQmCC">
-							</div><span data-v-4109dec7="">Deposit</span>
+							</div><span data-v-4109dec7="" onclick="location.href='/wallet/recharge'">Deposit</span>
 						</div>
 						<div data-v-4109dec7="">
 							<div data-v-4109dec7="" onclick="location.href='/wallet/withdrawal'" class="imgD"><img
 									data-v-4109dec7=""
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAARVBMVEUAAABcpf9cpv9Ypf9cpv9dpf9cpv9bpv9cpv9dpv9bpf9Yn/9bpf9cpv9cp/9cpf9cp/9cpv9cp/9Ypf9Onf9bpf9cpv/epAVSAAAAFnRSTlMAZowcv0DeX01ZJg9w8MV5z5aCOQafNEldWwAAAWtJREFUaN7t2stygzAMhWFhG4MhXBKI3v9RO800dYfIhRTLi875ll7kjxDOKgQAAADwom+M83yKd6bt6T2140xc80525oz80bR1nNndHhp34Ox8TbsaVtGc6KqWa1ZT0y+sZzWDpbQ7K3LFF7z/sD2r8oUH3h/ZsUR/y5bV9SRpWV1DEsPqjP6KZa7kZdq/UFwAwgg/IfzPwlUBCCP8hDDCCCOMMMIIf0MYYYQRRhjhZPhmonh6MZIpX/g68A/D9Ss7s2y8ZApPvHF7HI+cMp8PywUXv47skifsecN/nhpOM3nCjjfGx4o5bfpbOGxfaflzZ04Zd7uBJO3Bt3pk2by/4pYkS/XCRLd4OhlJzKYtJOkqdZYka6VupcSSlbUks5WyjhJCpSoQlR85Dlx+yzWl9U2lJvQUlXzYsav7KyIvuHy5o129wqUKlg7o69zdw/9j60LWrKXjbF04G612acPJzdZLtxIAAADA1gfPBBENQc7L/wAAAABJRU5ErkJggg==">
-							</div><span data-v-4109dec7="">Withdraw</span>
+							</div><span data-v-4109dec7="" onclick="location.href='/wallet/withdrawal'">Withdraw</span>
 						</div>
 						<div data-v-4109dec7="">
 							<div data-v-4109dec7="" onclick="location.href='/wallet/rechargerecord'" class="imgD"><img
 									data-v-4109dec7=""
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAY1BMVEWlS/8AAAClSv+mS/+nSv+mSv+kSv+kS/+iSP+lSv+kSv+mSv+iSf+nTv+jR/+lSv+mS/+lSv+lSv+lSv+kS/+lSv+lSv+nTv+qQP+lSv+lS/+kS/+jSv+lSP+kS/+kS/+lS/8RXc7/AAAAIHRSTlNmALLFJl957B9ZU0wMGhmogj85cOPZnxIGlvXGRiy8jNdiWcYAAAF8SURBVFjD7djbjoIwFIXhJba0tIAcVPA0w/s/5YxmDFEKu+5yMRr+O734AtEQurCauQV8IzDNtRBWOrNC6Lx5Acwqg1vrztkat0yZe4EXCYAA7yWCBBsDeIA9mU6DQuI1EFJMgRrwBfvycTBNOKBMR8ESHBB2DMzAA5GPgCUXtG6wBReUrRPUbBDaCVZ8sHKClg+enaDhg4kTlHxQOkHwQSygB/h1mhfcA/sZwWMBAMVxLlBdvauo5gFVfP8cq1Cw93oxFNxevV7cBoFR1+1qPFT/ihEbxH5DfkeDdAu4gJ8EFjv10DYKA2PVPRcFgYdukAoCiyF4CgIRDS4wDgNRx4/9u7/NAn4mWG+iqWIClMTjYNhh+qU9wVObjmiHv4wTPPNB63c0q71vufI8PMbTP8o3cXhsJbi1TnBlwaykJwI6eiLgX2I5PrNIMEpSJ8i/aU1PVXT0VOUel+hMQ8594gVSXvwGydLAI1PRg2Rfk2kxkc7S1aetxAvo3w8wqG0CkDGJmgAAAABJRU5ErkJggg==">
-							</div><span data-v-4109dec7="">Deposit history</span>
+							</div><span data-v-4109dec7=""  onclick="location.href='/wallet/rechargerecord'">Deposit history</span>
 						</div>
 						<div data-v-4109dec7="">
 							<div data-v-4109dec7="" onclick="location.href='/wallet/withdrawalrecord'" class="imgD"><img
 									data-v-4109dec7=""
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAZlBMVEUAAABGgv9HgP9Gg/9Ggf9Hgv9Jhv9Hgv9Ggf9Fgf9Ggf9Hgf9GgP9Ggv9Ggf9Hgf9Ggf9Ggf9GgP9HgP9Fgv9Hgf9Ggf9Ggv9Hhf9Hhf9Fgf9If/9Hgf9Ggf9Ggv9Ig/8qf/9Hgf9TbSWwAAAAIXRSTlMAZp9MTdgNP+xXx7NwMxnvvYx5Xzm/lkYyLCYg9eKoeQa/s09uAAABAElEQVRIx+3Vy26DMBCFYY+hNgZzh5BAb7z/SzaLtiDNxDkKWSQR/9b6NDIeCbV3j2xfzqvKfsJtO7Na1E4lx6XBB/M8AIt8cL2EMxflJkxjOpdKOKVzUYDnRGFMdLxiqZJwRUxLlrSED/TbSbKG/vIJtwn9J93bLsdNwmyznEby4EXrt3Vp5mnVN8MjwfFbDzi2DMc4HrbgaMcvgWvN+kJxNfPePYiTWUiDOJMmNyCmg2b5J3iqJ8W1XqoFjG/YJ8f4hn1wjG9Yxiy+YfWDP5Xd8rs54Xhk2ODYKFaMX5lX4IOFOswelZiFP/WNszt1sdGFqStUqMle8q3rCrW3qR9YPzQjMTL68AAAAABJRU5ErkJggg==">
-							</div><span data-v-4109dec7="">Withdrawal history</span>
+							</div><span data-v-4109dec7=""  onclick="location.href='/wallet/withdrawalrecord'">Withdrawal history</span>
 						</div>
 					</div>
 					
@@ -2883,10 +3699,10 @@
 			
 		</div>
 		 
-		<div onclick="location.href='/keFuMenu'" class="customer" id="customerId"
+		<!-- <div onclick="location.href='/keFuMenu'" class="customer" id="customerId"
 			style="--481e2ff7: 'Roboto', 'Inter', sans-serif; --29478ef0: bahnschrift;"><img class=""
-				data-origin="https://goagame.com/assets/png/icon_sevice-49d43959.png"
-				src="https://goagame.com/assets/png/icon_sevice-49d43959.png"></div>
+				data-origin=""
+				src="png/icon_sevice-49d43959.png"></div> -->
 		<div data-v-2023d0f1="" class="tabbar__container" style="--481e2ff7: 'Roboto', 'Inter', sans-serif;">
 			<div data-v-2023d0f1="" onclick="location.href='/home'" class="tabbar__container-item"><svg
 					data-v-2023d0f1="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
@@ -2898,7 +3714,7 @@
 						d="M32.4 44.545a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0M32.28 36.745a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0">
 					</path>
 				</svg><!----><span data-v-2023d0f1="">Home</span></div>
-			<div data-v-2023d0f1="" onclick="location.href='/checkIn'" class="tabbar__container-item"><svg
+			<div data-v-2023d0f1="" onclick="location.href='/Notification'" class="tabbar__container-item"><svg
 					data-v-2023d0f1="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
 					viewBox="0 0 46 44" class="">
 					<path fill="#949494" fill-rule="evenodd"
@@ -2910,8 +3726,8 @@
 					<path fill="#949494"
 						d="M34.092 16.65a1.75 1.75 0 0 1-1.75 1.75c-.967 0-1.795-.784-1.795-1.75 0-.967.828-1.75 1.795-1.75.966 0 1.75.783 1.75 1.75M17.449 16.648c0 .966-.766 1.75-1.733 1.75-.966 0-1.795-.784-1.795-1.75 0-.967.829-1.75 1.795-1.75.967 0 1.733.783 1.733 1.75M46 22a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0M46.33 30.044a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0">
 					</path>
-				</svg><!----><span data-v-2023d0f1="">Reward</span></div>
-			<div data-v-2023d0f1="" onclick="location.href='/promotion'" class="tabbar__container-item"><svg
+				</svg><!----><span data-v-2023d0f1="">Notification</span></div>
+			<div data-v-2023d0f1="" onclick="location.href='/home'" class="tabbar__container-item"><svg
 					data-v-2023d0f1="" xmlns="http://www.w3.org/2000/svg" width="57" height="49" fill="none"
 					viewBox="0 0 57 49" class="">
 					<path fill="#fff" fill-rule="evenodd"

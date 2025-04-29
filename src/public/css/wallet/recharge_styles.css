@@ -297,7 +297,7 @@ body {
     margin-bottom: .26667rem;
     width: 31%;
     margin-left: 3%;
-    background: linear-gradient(180deg, #ee0a24 0%, #fff 100%);
+    background: linear-gradient(180deg, rgb(141, 9, 9) 0%, #f16262 100%);
     border-radius: .26667rem;
     overflow: hidden
 }
@@ -324,8 +324,8 @@ body {
 }
 
 .mian .selectBox .pay-box .list .item.action[data-v-67caa467] {
-    background: -webkit-linear-gradient(right, #1989fa 0%, #27bd82 100%);
-    background: linear-gradient(270deg, #1989fa 0%, #00f3e0 100%);
+    background: -webkit-linear-gradient(right, rgb(141, 9, 9) 0%, rgb(139, 29, 29)  100%);
+    background: linear-gradient(270deg, rgb(141, 9, 9) 0%, rgb(139, 29, 29)  100%);
     position: relative
 }
 
@@ -353,7 +353,7 @@ body {
     padding: .26667rem;
     text-align: center;
     width: 30%;
-    background: linear-gradient(180deg, #4781ff 0%, #4781ff 100%);
+    background: linear-gradient(180deg, rgb(141, 9, 9) 0%, rgb(129, 32, 32)100%);
     box-shadow: 0 .18667rem .50667rem 0 rgba(143, 139, 139, .11);
     margin-right: .26667rem;
     height: 1.06667rem;
@@ -437,7 +437,7 @@ body {
 .mian .selectBox .pay-box .des[data-v-67caa467] {
     margin-bottom: .26667rem;
     font-size: .34667rem;
-    color: #e04846;
+    color: rgb(141, 9, 9);
     line-height: .4rem
 }
 
@@ -483,7 +483,7 @@ body {
     line-height: 1.06667rem;
     color: #fff;
     text-align: center;
-    background: #1989fa;
+    background: rgb(141, 9, 9);
     box-shadow: 0 .16rem .34667rem .10667rem hsla(0, 0%, 71.4%, .27);
     border-radius: 1.06667rem;
     font-size: .48rem
@@ -3012,7 +3012,7 @@ ul {
      color: #fff; 
     font-size: .37333rem;
     line-height: .64rem;
-    background-color: #1989fa; 
+    background-color:rgb(141, 9, 9); 
 }
 
 .van-cell:after {
@@ -3265,7 +3265,7 @@ ul {
     min-width: 0;
     margin: 0;
     padding: 0;
-    color: #000;
+    color: #f7f2f2;
     line-height: inherit;
     text-align: left;
     background-color: transparent;
@@ -4311,9 +4311,9 @@ ul {
     left: 50%;
     width: 100%;
     height: 100%;
-    background-color: #4781ff;
+    background-color: rgb(141, 9, 9);
     border: inherit;
-    border-color: #4781ff;
+    border-color: rgb(130, 49, 49);
     border-radius: inherit;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -4333,8 +4333,8 @@ ul {
 .van-button--default {
     border: none;
     color: #4781ff;
-    background: -webkit-linear-gradient(top, #4781ff 0%, #4781ff 100%);
-    background: linear-gradient(180deg, #9ff3f2 0%, #00d5f3 100%)
+    background: -webkit-linear-gradient(top, rgb(141, 9, 9) 0%, rgb(129, 39, 39) 100%);
+    background: linear-gradient(180deg, rgb(141, 9, 9)0%, rgb(129, 39, 39) 100%)
 }
 
 .van-button--primary {

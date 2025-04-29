@@ -8,20 +8,8 @@
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <title>Blue Dollar</title>
     <link rel="modulepreload" crossorigin="" href="/assets/js/page-home-71e7476c.js">
-    <!-- <link rel="stylesheet" href="https://goagames.in/assets/css/modules-8b01ca49.css">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-activity-323fd479.css">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-home-fe71694e.css">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/index-0d5f8a5b.css"> -->
-    <link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-wallet-12d7ef96.js">
-    <link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-login-65aad3be.js">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-login-b269684e.css">
-    <link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-test-5c43c175.js">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-test-f69268d7.css">
-    <link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-promotion-10c2bb8e.js">
-    <link rel="modulepreload" as="script" crossorigin="" href="/assets/js/page-main-14f75a5b.js">
-    <!-- <link rel="stylesheet" href="https://goagames.in/assets/css/page-main-f11ddcbf.css">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-promotion-60a12a81.css">
-    <link rel="stylesheet" href="https://goagames.in/assets/css/page-wallet-e0a0b50f.css"> -->
+
+
     <link href="/css/wallet/main.css" rel="stylesheet" />
     <link href="/css/wallet/chunk_2-1.css" rel="stylesheet" />
     <link href="/css/wallet/chunk_2-2.css" rel="stylesheet" />
@@ -7245,116 +7233,14 @@
                         <img data-v-106b99c8="" src="/images/back.c3244ab0.png" class="navbar-back">
                     </div>
                 </div>
-                <div data-v-106b99c8="" class="navbar-title">Recharge Record</div>
+                <div data-v-106b99c8="" class="navbar-title">Bet History</div>
                 <div data-v-106b99c8="" class="navbar-right"></div>
             </div>
-            <div data-v-3966082f="" class="box">
-                <div data-v-3966082f="" class="list m-b-20">
-                    <div data-v-3966082f="" role="feed" class="van-list">
-                        <div class="lisys">
-
-                        </div>
-                        <div class="van-list__finished-text">No more data</div>
-                        <div class="van-list__placeholder"></div>
-                    </div>
-                </div>
-            </div>
-            <div data-v-7692a079="" data-v-3966082f="" class="Loading c-row c-row-middle-center" style="display: none;">
-                <div data-v-7692a079="" class="van-loading van-loading--circular">
-                    <span data-v-7692a079="" class="van-loading__spinner van-loading__spinner--circular"
-                        style="color: rgb(242, 65, 59);">
-                        <svg data-v-7692a079="" viewBox="25 25 50 50" class="van-loading__circular">
-                            <circle data-v-7692a079="" cx="50" cy="50" r="20" fill="none"></circle>
-                        </svg>
-                    </span>
-                </div>
-            </div>
+           
+         
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/client.js"></script>
-    <script>
-        function formateT(params) {
-            let result = (params < 10) ? "0" + params : params;
-            return result;
-        }
-
-        function timerJoin(params = '', addHours = 0) {
-            let date = '';
-            if (params) {
-                date = new Date(Number(params));
-            } else {
-                date = new Date();
-            }
-
-            date.setHours(date.getHours() + addHours);
-
-            let years = formateT(date.getFullYear());
-            let months = formateT(date.getMonth() + 1);
-            let days = formateT(date.getDate());
-
-            let hours = date.getHours() % 12;
-            hours = hours === 0 ? 12 : hours;
-            let ampm = date.getHours() < 12 ? "AM" : "PM";
-
-            let minutes = formateT(date.getMinutes());
-            let seconds = formateT(date.getSeconds());
-
-            return years + '-' + months + '-' + days + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-        }
-        function loads(datas) {
-            let html = datas.map((data) => {
-                return `
-         <div data-v-001ac065="" class="rechargeh__container-content__item"><div data-v-001ac065="" class="rechargeh__container-content__item-header"><span data-v-001ac065="" class="recharge_tit">Deposit</span><div data-v-001ac065="" class="recharge_right fail">   <div data-v-4e585e69="" style="color: ${(data.status == 1) ? 'rgb(107, 190, 88)' : (data.status == 0) ? 'rgb(255 171 0);' : 'red'}"> ${(data.status == 1) ? 'Success' : (data.status == 2) ? 'Cancelled' : 'Pending'}</div> <!----><!----></div></div><div data-v-001ac065="" role="separator" class="van-divider van-divider--hairline divier"><!----></div><div data-v-001ac065="" class="rechargeh__container-content__item-body"><div data-v-001ac065=""><span data-v-001ac065="">Balance</span><span data-v-001ac065="" class="price">₹ ${data.money}</span></div><div data-v-001ac065=""><span data-v-001ac065="">Type</span><span data-v-001ac065="">Epay-Paytm x QR</span></div><div data-v-001ac065=""><span data-v-001ac065="">Time</span><span data-v-001ac065="">${timerJoin(data.time)}</span></div><div data-v-001ac065=""><span data-v-001ac065="">Order number</span><div data-v-001ac065="" class="order"><span data-v-001ac065="">${data.id_order}</span><img data-v-001ac065="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEUAAACvsMetr8Wqr8KusMavsMeusMarr8OvsMavscelr8WusMausMasr8ausMb/yMBRAAAADnRSTlMAn2Ag77+QQK9/EN/PUG+JKIoAAABzSURBVCjPYyAOrBSEAjEDiMC5dzDgDOazv1aCAo1nYAGmh0ACwcIUKFJ8ClavawARYIWb+BIioOcItVPi3QKwgJwCWDuYNYwEAkUeoQq8exeAKiCkzoBmBgNWgbwmWCTsKwALmMDD9A1EIXMiLCJnERfxAKjSRuHlWJyVAAAAAElFTkSuQmCC" alt=""></div></div></div></div>
-                    `;
-            })
-            $('.van-list .lisys').html(html);
-            $('.number').click(function (e) {
-                e.preventDefault();
-                let text = $(this).text().trim();
-                navigator.clipboard.writeText(text);
-                $(this).addClass('block-click');
-                alertMess('Copy successful', $(this));
-            });
-        }
-        function alertMess(text, sic) {
-            $('body').append(
-                `
-                <div data-v-1dcba851="" class="msg">
-                    <div data-v-1dcba851="" class="msg-content v-enter-active v-enter-to" style=""> ${text} </div>
-                </div>
-                `
-            );
-            setTimeout(() => {
-                $('.msg .msg-content').removeClass('v-enter-active v-enter-to');
-                $('.msg .msg-content').addClass('v-leave-active v-leave-to');
-                setTimeout(() => {
-                    $('.msg').remove();
-                }, 100);
-                sic.removeClass('block-click');
-            }, 1000);
-        }
-        $.ajax({
-            type: "GET",
-            url: "/api/webapi/recharge/list",
-            dataType: "json",
-            success: function (response) {
-                if (response.datas.length == 0) return;
-                loads(response.datas);
-            }
-        });
-        $.ajax({
-            type: "POST",
-            url: "/api/webapi/confirm_recharge",
-            data: {},
-            dataType: "json",
-            success: function (response) {
-                console.log(response.datas);
-                if (response.datas.length == 0) return;
-                loads(response.datas);
-            }
-        });
-    </script>
+  
 </body>
 
 </html>

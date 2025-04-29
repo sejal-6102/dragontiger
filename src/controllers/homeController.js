@@ -27,6 +27,11 @@ const addBank = async (req, res) => {
     return res.render("wallet/addbank.ejs");
 }
 
+
+const bethistory = async (req, res) => {
+    return res.render("wallet/bethistory.ejs");
+}
+
 // promotion
 const promotionPage = async (req, res) => {
     return res.render("promotion/promotion.ejs");
@@ -118,12 +123,16 @@ const rechargerecordPage = async (req, res) => {
     return res.render("wallet/rechargerecord.ejs");
 }
 
+const transactionhistory = async (req, res) => {
+    return res.render("wallet/transactionhistory.ejs");
+}
+
 const withdrawalPage = async (req, res) => {
     return res.render("wallet/withdrawal.ejs");
 }
 
 const withdrawalrecordPage = async (req, res) => {
-    return res.render("wallet/withdrawalrecord.ejs");
+    return res.render("wallet/withdrawalrecord");
 }
 const transfer = async (req, res) => {
     return res.render("wallet/transfer.ejs");
@@ -544,5 +553,7 @@ module.exports = {
     partnerRecord,
     Confidentiality,
     notificationPage,
-    gamePage
+    transactionhistory,
+    gamePage,
+    bethistory,
 }

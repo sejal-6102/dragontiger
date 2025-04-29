@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html translate="no" data-dpr="1" style="font-size: 40px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex,nofollow">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <title>Blue Dollar - Records</title>
+    <link rel="shortcut icon" href="/images/bitbug_favicon.ico" type="image/x-icon">
+    <style>
+      
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #f0f2f5;
+            padding: 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Segoe UI, Arial, Roboto, PingFang SC, Hiragino Sans GB, Microsoft Yahei, sans-serif;
+            font-size: 12px;
+        }
+
+        #app {
+           height: 100%;
+           display: flex; 
+           flex-direction: column; 
+        }
+
+        .mian {
+            height: 100%;
+            max-width: 10rem;
+            margin: 0 auto;
+            background-color: white; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            height: 1.22667rem; 
+            line-height: 1.5;
+            text-align: center;
+            background-color:rgb(141, 9, 9); 
+            user-select: none;
+            flex-shrink: 0; 
+        }
+
+        .navbar-left,
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 0.42667rem;
+            font-size: 0.37333rem;
+            cursor: pointer;
+        }
+        .navbar-left { left: 0; }
+        .navbar-right { right: 0; }
+
+        .navbar-left .bank {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-back {
+             width: 0.5rem;
+            height: 0.5rem;
+        }
+
+        .navbar-title {
+            max-width: 60%;
+            margin: 0 auto;
+            color: #323233; 
+            font-weight: 500; 
+            font-size: 0.42667rem;
+            color: rgb(255, 254, 254);
+        }
+
+        .content-wrapper {
+            flex-grow: 1; 
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; 
+            background-color: white; 
+            padding: .4rem; 
+        }
+
+        .page-container {
+        }
+        #rechargePage { margin-bottom: .4rem;}
+
+        .section-title {
+            font-size: 0.4rem; 
+            font-weight: bold;
+            color:rgb(141, 9, 9);
+            padding: 0.3rem 0 0.3rem 0; 
+            text-align: left; 
+        }
+
+
+        .list {
+            background: #fff;
+            border-radius: .2rem; 
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        .van-list {
+        }
+
+        .lisys {
+        }
+
+         .rechargeh__container-content__item {
+            padding: .26667rem .4rem;
+            background: #fff; 
+            border-bottom: 1px solid #f0f0f0;
+         }
+         .rechargeh__container-content__item:last-child {
+            border-bottom: none; 
+         }
+
+         .rechargeh__container-content__item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .21333rem;
+            padding-bottom: .21333rem;
+            border-bottom: 1px dashed #eee; 
+         }
+
+         .recharge_tit {
+            font-weight: 500;
+            font-size: 0.37333rem; 
+            color: #333;
+         }
+
+         .recharge_right > div, .stateG > div {
+            font-size: 0.34667rem;
+            font-weight: 500;
+         }
+
+         .van-divider.divier {
+            display: none;
+         }
+
+         .rechargeh__container-content__item-body > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.32rem; 
+            color: #555;
+            margin-bottom: .16rem;
+            line-height: 1.4;
+         }
+         .rechargeh__container-content__item-body > div:last-child {
+            margin-bottom: 0;
+         }
+
+         .rechargeh__container-content__item-body span:first-child {
+            color: #888;
+            margin-right: .26667rem; 
+            flex-shrink: 0; 
+         }
+
+         .rechargeh__container-content__item-body span:last-child,
+         .rechargeh__container-content__item-body .order {
+            font-weight: 500;
+            color: #333;
+            text-align: right;
+            word-break: break-all; 
+         }
+
+         .rechargeh__container-content__item-body .price {
+            font-weight: bold;
+         }
+         #rechargeRecordList .price { color: #fb4e4e; }
+         #withdrawalRecordList .price { color: #1c9e5f; }
+
+         .rechargeh__container-content__item-body .order {
+            display: inline-flex; 
+            align-items: center;
+            cursor: pointer;
+         }
+         .rechargeh__container-content__item-body .order img {
+            width: 0.37333rem; 
+            height: 0.37333rem; 
+            margin-left: .13333rem; 
+            vertical-align: middle;
+         }
+
+
+        .van-list__finished-text,
+        .van-list__error-text,
+        .empty-placeholder {
+            text-align: center;
+            padding: .8rem .4rem;
+            color: #969799;
+            font-size: 0.37333rem; 
+        }
+
+        .Loading {
+            padding: .53333rem 0;
+            text-align: center;
+        }
+         .c-row-middle-center {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+         }
+
+        .van-loading { display: inline-flex; align-items: center; }
+
+        .van-loading__spinner--circular {
+            display: inline-block;
+            width: 0.64rem; 
+            height: 0.64rem; 
+            animation: van-rotate 2s linear infinite;
+            color: rgb(242, 65, 59); 
+        }
+        .van-loading__circular circle {
+             animation: van-circular 1.5s ease-in-out infinite;
+             stroke: currentColor;
+             stroke-width: 3;
+             stroke-linecap: round;
+        }
+
+
+        .m-b-20 { margin-bottom: 0.53333rem;  }
+        a { text-decoration: none; }
+        button, input, textarea { color: inherit; font: inherit; }
+        [class*=van-]:focus, a:focus, button:focus, input:focus, textarea:focus { outline: 0; }
+        ol, ul { margin: 0; padding: 0; list-style: none; }
+        .van-ellipsis { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+        @keyframes van-rotate {
+            0% { transform: rotate(0); }
+            to { transform: rotate(1turn); }
+        }
+         @keyframes van-circular {
+             0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0 }
+             50% { stroke-dasharray: 90, 150; stroke-dashoffset: -40 }
+             to { stroke-dasharray: 90, 150; stroke-dashoffset: -120 }
+         }
+
+         .msg { position: fixed; top: 40px; left: 50%; transform: translateX(-50%); z-index: 10000; pointer-events: none; }
+         .msg-content { padding: 8px 16px; background-color: rgba(0, 0, 0, 0.75); color: white; border-radius: 4px; font-size: 13px; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(-20px); }
+         .msg-content.v-enter-active.v-enter-to { opacity: 1; transform: translateY(0); }
+         .msg-content.v-leave-active.v-leave-to { opacity: 0; transform: translateY(-20px); }
+         .block-click { pointer-events: none; }
+
+
+    </style>
+</head>
+
+<body style="font-size: 12px;"> 
+    <div id="app">
+        <div data-v-3966082f class="mian">
+
+            <div data-v-106b99c8="" class="navbar">
+                <div data-v-106b99c8="" class="navbar-left" onclick="location.href='/wallet'">
+                    <div data-v-106b99c8="" class="bank"> <!-- Removed c-row classes if not defined/needed -->
+                        <img data-v-106b99c8="" src="/images/back.c3244ab0.png" class="navbar-back" alt="Back">
+                    </div>
+                </div>
+                <div data-v-106b99c8="" class="navbar-title">Transaction History</div>
+                <div data-v-106b99c8="" class="navbar-right">
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+
+                <div class="page-container" id="rechargePage">
+                    <h2 class="section-title">Deposit History</h2>
+                    <div data-v-3966082f="" class="list"> 
+                        <div data-v-3966082f="" role="feed" class="van-list">
+                            <div class="lisys" id="rechargeRecordList">
+                                <div class="empty-placeholder">Loading records...</div>
+                            </div>
+                             <div data-v-7692a079="" class="Loading c-row c-row-middle-center" style="display: none;">
+                                <div data-v-7692a079="" class="van-loading van-loading--circular">
+                                    <span data-v-7692a079="" class="van-loading__spinner van-loading__spinner--circular">
+                                         <svg data-v-7692a079="" viewBox="25 25 50 50" class="van-loading__circular">
+                                            <circle data-v-7692a079="" cx="50" cy="50" r="20" fill="none"></circle>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="van-list__placeholder"></div> <!-- Keep for van-list functionality -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-container" id="withdrawalPage">
+                    <h2 class="section-title">Withdrawal History</h2>
+                     <div data-v-3966082f="" class="list"> <!-- Removed m-b-20 -->
+                        <div data-v-3966082f="" role="feed" class="van-list">
+                            <div class="lisys" id="withdrawalRecordList">
+                                 <div class="empty-placeholder">Loading records...</div>
+                            </div>
+                             <div data-v-7692a079="" class="Loading c-row c-row-middle-center" style="display: none;">
+                                <div data-v-7692a079="" class="van-loading van-loading--circular">
+                                    <span data-v-7692a079="" class="van-loading__spinner van-loading__spinner--circular">
+                                         <svg data-v-7692a079="" viewBox="25 25 50 50" class="van-loading__circular">
+                                            <circle data-v-7692a079="" cx="50" cy="50" r="20" fill="none"></circle>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="van-list__placeholder"></div><!-- Keep for van-list functionality -->
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End .content-wrapper -->
+
+        </div> <!-- End .mian -->
+    </div> <!-- End #app -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        function formateT(params) {
+            const num = Number(params);
+            return (num < 10) ? "0" + num : num;
+        }
+
+
+        function timerJoin(params = '', addHours = 0) {
+            let date;
+            if (!params) { date = new Date(); }
+            else {
+                try {
+                    const timestamp = Number(params);
+                    if (!isNaN(timestamp) && timestamp > 0 && String(params).length >= 10) { // Basic check for timestamp-like value
+                         date = new Date(timestamp);
+                         if (isNaN(date.getTime())) {
+                             date = new Date(params);
+                             if (isNaN(date.getTime())) throw new Error("Invalid date string");
+                         }
+                    } else {
+                         date = new Date(params);
+                         if (isNaN(date.getTime())) throw new Error("Invalid date string");
+                    }
+                } catch (e) { console.error("Could not parse date:", params, e); return "Invalid Date"; }
+            }
+
+            if (!(date instanceof Date) || isNaN(date.getTime())) {
+                 console.error("Invalid Date object created for:", params);
+                 return "Invalid Date";
+            }
+
+
+            try {
+                if (typeof addHours === 'number' && addHours !== 0) {
+                    date.setHours(date.getHours() + addHours);
+                }
+            }
+            catch (e) { console.error("Error setting hours:", e); return "Date Error"; }
+
+            let years = date.getFullYear();
+            let months = formateT(date.getMonth() + 1); // Month is 0-indexed
+            let days = formateT(date.getDate());
+
+            let hours24 = date.getHours();
+            let ampm = hours24 >= 12 ? "PM" : "AM";
+            let hours12 = hours24 % 12;
+            hours12 = hours12 ? hours12 : 12; // Handle midnight (0) as 12
+            let hoursFormatted = formateT(hours12);
+
+            let minutes = formateT(date.getMinutes());
+            let seconds = formateT(date.getSeconds());
+
+             if (isNaN(years) || isNaN(months) || isNaN(days) || isNaN(hours12) || isNaN(minutes) || isNaN(seconds)) {
+                 console.error("Invalid date components generated for:", params); return "Invalid Date Format";
+            }
+            return `${years}-${months}-${days} ${hoursFormatted}:${minutes}:${seconds} ${ampm}`;
+        }
+
+
+        function alertMess(text, targetElement) {
+            $('.msg').remove();
+            $('body').append(`<div data-v-1dcba851="" class="msg"><div data-v-1dcba851="" class="msg-content" style="">${text}</div></div>`);
+            $('.msg .msg-content').addClass('v-enter-active v-enter-to');
+
+            setTimeout(() => {
+                $('.msg .msg-content').removeClass('v-enter-active v-enter-to').addClass('v-leave-active v-leave-to');
+                setTimeout(() => { $('.msg').remove(); }, 300); // Match CSS transition duration
+                if (targetElement && targetElement.length > 0) {
+                    targetElement.removeClass('block-click');
+                }
+            }, 1500); // How long the message stays visible
+        }
+
+        function loadRechargeData(datas) {
+            const container = $('#rechargeRecordList');
+            const loadingIndicator = $('#rechargePage .Loading'); // Target specific loading indicator
+
+            if (!Array.isArray(datas) || datas.length === 0) {
+                 container.html('<div class="empty-placeholder">No Deposit Records Found</div>');
+                 loadingIndicator.hide(); // Hide loading if no data
+                 return;
+            }
+
+            let html = datas.map((data) => {
+                 if (!data || typeof data.money === 'undefined' || typeof data.status === 'undefined' || !data.time || !data.id_order) {
+                     console.warn("Skipping invalid recharge data:", data);
+                     return '';
+                 }
+                const statusText = (data.status == 1) ? 'Success' : (data.status == 2) ? 'Cancelled' : 'Pending';
+                const statusColor = (data.status == 1) ? 'rgb(107, 190, 88)' : (data.status == 0) ? 'rgb(255 171 0)' : 'red';
+                const formattedMoney = Number(data.money || 0).toFixed(2);
+                 return `
+                <div class="rechargeh__container-content__item">
+                   <div class="rechargeh__container-content__item-header">
+                      <span class="recharge_tit">Deposit</span>
+                       <div class="recharge_right"> <div style="color: ${statusColor}">${statusText}</div> </div>
+                   </div>
+                   <div class="rechargeh__container-content__item-body">
+                      <div><span>Balance</span><span class="price">₹ ${formattedMoney}</span></div>
+                      <div><span>Type</span><span>Epay-Paytm x QR</span></div>
+                      <div><span>Time</span><span>${timerJoin(data.time)}</span></div>
+                      <div><span>Order number</span><div class="order"><span >${data.id_order}</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEUAAACvsMetr8Wqr8KusMavsMeusMarr8OvsMavscelr8WusMausMasr8ausMb/yMBRAAAADnRSTlMAn2Ag77+QQK9/EN/PUG+JKIoAAABzSURBVCjPYyAOrBSEAjEDiMC5dzDgDOazv1aCAo1nYAGmh0ACwcIUKFJ8ClavawARYIWb+BIioOcItVPi3QKwgJwCWDuYNYwEAkUeoQq8exeAKiCkzoBmBgNWgbwmWCTsKwALmMDD9A1EIXMiLCJnERfxAKjSRuHlWJyVAAAAAElFTkSuQmCC" alt="Copy"></div></div>
+                   </div>
+                </div>`;
+            }).join('');
+
+            container.html(html); // Replace content
+            loadingIndicator.hide(); // Hide loading indicator
+        }
+
+         function loadWithdrawalData(datas) {
+             const container = $('#withdrawalRecordList');
+             const loadingIndicator = $('#withdrawalPage .Loading'); // Target specific loading indicator
+
+             if (!Array.isArray(datas) || datas.length === 0) {
+                 container.html('<div class="empty-placeholder">No Withdrawal Records Found</div>');
+                 loadingIndicator.hide(); // Hide loading if no data
+                 return;
+             }
+
+             let html = datas.map((data)=>{
+                  if (!data || typeof data.money === 'undefined' || typeof data.status === 'undefined' || !data.time || !data.id_order) {
+                      console.warn("Skipping invalid withdrawal data:", data);
+                      return '';
+                  }
+                 const statusText = (data.status == 1) ? 'Successful' : (data.status == 2) ? 'Cancelled' : 'Pending';
+                 const statusColor = (data.status == 1) ? 'rgb(33, 151, 107)' : (data.status == 0) ? 'rgb(255 171 0)' : 'red';
+                 const formattedMoney = Number(data.money || 0).toFixed(2);
+                 return `
+                 <div class="rechargeh__container-content__item">
+                    <div class="rechargeh__container-content__item-header">
+                       <span class="recharge_tit">Withdrawal</span>
+                       <span class="stateG"><div style="color: ${statusColor}">${statusText}</div></span>
+                    </div>
+                    <div class="rechargeh__container-content__item-body">
+                       <div><span>Balance</span><span class="price">₹ ${formattedMoney}</span></div>
+                       <div><span>Type</span><span>UPI</span></div>
+                       <div><span>Time</span><span>${timerJoin(data.time)}</span></div>
+                       <div><span>Order number</span><div class="order"><span>${data.id_order}</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEUAAACvsMetr8Wqr8KusMavsMeusMarr8OvsMavscelr8WusMausMasr8ausMb/yMBRAAAADnRSTlMAn2Ag77+QQK9/EN/PUG+JKIoAAABzSURBVCjPYyAOrBSEAjEDiMC5dzDgDOazv1aCAo1nYAGmh0ACwcIUKFJ8ClavawARYIWb+BIioOcItVPi3QKwgJwCWDuYNYwEAkUeoQq8exeAKiCkzoBmBgNWgbwmWCTsKwALmMDD9A1EIXMiLCJnERfxAKjSRuHlWJyVAAAAAElFTkSuQmCC" alt="Copy"></div></div>
+                    </div>
+                 </div>`;
+             }).join('');
+
+             container.html(html); // Replace content
+             loadingIndicator.hide(); // Hide loading indicator
+         }
+
+        $(document).ready(function() {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/webapi/recharge/list", // Make sure this endpoint is correct
+                dataType: "json",
+                 beforeSend: function() {
+                     $('#rechargePage .Loading').show(); // Show specific loading indicator
+                     $('#rechargeRecordList').html('<div class="empty-placeholder">Loading Deposit Records...</div>');
+                },
+                success: function (response) {
+                    if (response && Array.isArray(response.datas)) {
+                        loadRechargeData(response.datas);
+                    } else {
+                        console.error("Invalid recharge response format:", response);
+                        $('#rechargeRecordList').html('<div class="van-list__error-text">Error loading deposit records.</div>');
+                        $('#rechargePage .Loading').hide(); // Hide loading on error
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                     console.error("Recharge AJAX Error:", textStatus, errorThrown);
+                     $('#rechargeRecordList').html('<div class="van-list__error-text">Failed to load deposit records. Please try again.</div>');
+                     $('#rechargePage .Loading').hide(); // Hide loading on error
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/api/webapi/withdraw/list", // Make sure this endpoint is correct
+                dataType: "json",
+                beforeSend: function() {
+                     $('#withdrawalPage .Loading').show(); // Show specific loading indicator
+                     $('#withdrawalRecordList').html('<div class="empty-placeholder">Loading Withdrawal Records...</div>');
+                },
+                success: function(response) {
+                     if (response && Array.isArray(response.datas)) {
+                        loadWithdrawalData(response.datas);
+                    } else {
+                        console.error("Invalid withdrawal response format:", response);
+                        $('#withdrawalRecordList').html('<div class="van-list__error-text">Error loading withdrawal records.</div>');
+                         $('#withdrawalPage .Loading').hide(); // Hide loading on error
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                     console.error("Withdrawal AJAX Error:", textStatus, errorThrown);
+                     $('#withdrawalRecordList').html('<div class="van-list__error-text">Failed to load withdrawal records. Please try again.</div>');
+                     $('#withdrawalPage .Loading').hide(); // Hide loading on error
+                }
+                // No 'complete' needed here as success/error handle hiding the loader
+            });
+
+            $('.content-wrapper').on('click', '.order', function (e) {
+                 e.preventDefault(); // Prevent any default action if it were a link
+                 let text = $(this).find('span').text().trim(); // Get the text to copy
+                 let $button = $(this); // Reference the clicked element
+
+                 if (!text) { // Do nothing if text is empty
+                     console.warn("Copy clicked, but no text found.");
+                     return;
+                 }
+
+                 if ($button.hasClass('block-click')) {
+                     return;
+                 }
+                 $button.addClass('block-click');
+
+                 if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                      navigator.clipboard.writeText(text).then(() => {
+                         alertMess('Copy successful!', $button); // Pass the button to unblock later
+                     }).catch(err => {
+                         console.error('Clipboard API copy failed: ', err);
+                         try {
+                             var textArea = document.createElement("textarea");
+                             textArea.value = text;
+                             textArea.style.position = 'fixed'; // Prevent scrolling issues
+                             textArea.style.opacity = '0';
+                             document.body.appendChild(textArea);
+                             textArea.focus(); // Focus is needed for select()
+                             textArea.select();
+                             let successful = document.execCommand('copy');
+                             document.body.removeChild(textArea);
+                             if (successful) {
+                                 alertMess('Copy successful!', $button);
+                             } else {
+                                 throw new Error('execCommand failed');
+                             }
+                          } catch (fallbackErr) {
+                             console.error('Fallback copy failed: ', fallbackErr);
+                             alertMess('Copy failed', $button); // Unblock even if failed
+                          }
+                     });
+                 } else {
+                      try {
+                        var textArea = document.createElement("textarea");
+                        textArea.value = text;
+                        textArea.style.position = 'fixed'; // Prevent scrolling issues
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.focus(); // Focus is needed for select()
+                        textArea.select();
+                        let successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        if (successful) {
+                             alertMess('Copy successful!', $button);
+                         } else {
+                             throw new Error('execCommand failed');
+                         }
+                      } catch (err) {
+                        console.error('Fallback copy failed: ', err);
+                        alertMess('Cannot copy', $button); // Unblock even if failed
+                      }
+                 }
+             });
+
+        }); // <-- End of $(document).ready()
+
+    </script>
+
+</body>
+</html>
