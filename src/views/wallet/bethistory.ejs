@@ -148,7 +148,7 @@
             <!-- Content Box -->
             <div data-v-3966082f="" class="box">
                 <div class="list" id="betHistoryContainer" data-v-3966082f="">
-                    <h4 class="history-title">Betting History (Dragon Tiger)</h4>
+                    <h4 class="history-title"><h4>
                     <div class="table-responsive">
                         <table class="bet-history-table">
                             <thead>
@@ -192,185 +192,149 @@
     <script src="/DragonTiger/assets/js/script.js"></script>
 
     <script>
-    // ==================================================
-    // Dragon Tiger Bet History Loading Script (bethistory Page)
-    // Using mechanism similar to DragonTiger.ejs (fetching user info first)
-    // ==================================================
-    $(document).ready(function() {
-
-        const itemsPerPage = 10;
-        let historyCurrentPage = 1; // Keep track of the current page
-        let historyIsLoading = false;
-        let historyTotalPages = 1;
-        let historyUserPhone = null; // Store phone number globally for this page
-
-        // --- DOM Element References (Get them once) ---
-        const historyTableBody = $('#dragonTigerHistoryTableBody');
-        const historyLoadingIndicator = $('#dragonTigerHistoryLoading');
-        const historyPaginationContainer = $('#dragonTigerHistoryPagination');
-
-        // --- Helper Functions (Keep these consistent with DragonTiger.ejs) ---
-        function formatDate(timestamp) { if (!timestamp) return 'N/A'; try { const d=new Date(timestamp); const h=('0'+d.getHours()).slice(-2); const m=('0'+d.getMinutes()).slice(-2); const s=('0'+d.getSeconds()).slice(-2); return `${h}:${m}:${s}`; } catch(e){return 'Date Err';} }
-        function formatBetCard(card) { if (!card) return 'N/A'; card = card.toLowerCase(); if (card === 'dragon') return '<span class="badge badge-primary">D</span>'; if (card === 'tiger') return '<span class="badge badge-danger">T</span>'; if (card === 'tie') return '<span class="badge badge-success">Tie</span>'; return card; }
-        function formatResult(result) { if (!result || result === 'pending') return '<span class="text-warning">-</span>'; result = result.toLowerCase(); if (result === 'dragon') return '<span class="text-primary font-weight-bold">D</span>'; if (result === 'tiger') return '<span class="text-danger font-weight-bold">T</span>'; if (result === 'tie') return '<span class="text-success font-weight-bold">Tie</span>'; return result; }
-        function formatWinLossAmount(item) { if (!item || item.result === 'pending') { return '<span class="text-muted">-</span>'; } const wa=Number(item.win_amount); const ba=Number(item.amount); return wa > 0 ? `<span class="text-success font-weight-bold">+${wa.toFixed(2)}</span>` : `<span class="text-danger font-weight-bold">-${ba.toFixed(2)}</span>`; }
-
-        // --- Function to Render Bet History Table ---
-        function renderBetHistoryTable(list) {
-             historyTableBody.empty();
-             if (!list || list.length === 0) { historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">No Bet History Found</td></tr>'); return; }
-             $.each(list, function(index, item) {
-                 const winLossHtml = formatWinLossAmount(item); const resultHtml = formatResult(item.result); const betCardHtml = formatBetCard(item.card);
-                 const betAmount = Number(item.amount || 0).toFixed(2); const timeFormatted = formatDate(item.created_at);
-                 var rowHtml = `<tr><td>${item.roundId || 'N/A'}</td><td>${betCardHtml}</td><td>${betAmount}</td><td>${resultHtml}</td><td>${winLossHtml}</td><td>${timeFormatted}</td></tr>`;
-                 historyTableBody.append(rowHtml);
-             });
-        }
-
-        // --- Function to Render Pagination ---
-         function renderPagination(paginationData) {
-             historyPaginationContainer.empty();
-             if (!paginationData || paginationData.totalPages <= 1) return;
-             const currentPage = paginationData.currentPage; historyTotalPages = paginationData.totalPages; // Update global total pages
-             let prevDisabled = currentPage === 1 ? 'disabled' : '';
-             historyPaginationContainer.append(`<li class="page-item ${prevDisabled}"><a class="page-link dt-page-link" href="#" data-page="${currentPage - 1}" aria-label="Previous">«</a></li>`);
-             historyPaginationContainer.append(`<li class="page-item disabled"><span class="page-link" style="color: #333; background: #f0f0f0; border-color: #ddd;">${currentPage} / ${totalPages}</span></li>`);
-             let nextDisabled = currentPage === totalPages ? 'disabled' : '';
-             historyPaginationContainer.append(`<li class="page-item ${nextDisabled}"><a class="page-link dt-page-link" href="#" data-page="${currentPage + 1}" aria-label="Next">»</a></li>`);
-             // Event listener attached below (outside this function) to avoid duplicates
-         }
-
-        // --- Function to Fetch Bet History Data via AJAX ---
-        function fetchBetHistory(page = 1) {
-            // **Crucial Check:** Ensure we have the phone number before proceeding
-            if (!historyUserPhone) {
-                 console.error("Cannot fetch history: User phone number not available.");
-                 historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">Error: User phone missing. Cannot load history.</td></tr>');
-                 historyLoadingIndicator.hide();
-                 historyPaginationContainer.empty();
-                 return;
-            }
-
-            if (historyIsLoading) return; // Prevent multiple simultaneous requests
-            historyIsLoading = true;
-            historyCurrentPage = page; // Update current page state
-
-            loadingIndicator.show();
-            // Only show "Loading..." text on initial page load or when table is empty
-            if (page === 1 || historyTableBody.children().length === 0) {
-                 tableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">Loading Bet History...</td></tr>');
-            }
-            paginationContainer.empty(); // Clear pagination during load
-
-            // *** Using the API endpoint WITH the fetched phone number ***
-            const apiUrl = `/api/betting-history/${historyUserPhone}?page=${page}&limit=${itemsPerPage}`;
-            console.log("Fetching history from:", apiUrl);
-
-            $.ajax({
-                url: apiUrl,
-                type: 'GET',
-                dataType: 'json',
-                // Auth headers/cookies are assumed handled by client.js or browser
-                success: function(response) {
-                    console.log("History API Response:", response);
-                    // Check structure based on your API
-                    let historyData = null;
-                    let paginationData = null;
-
-                    if (response && Array.isArray(response.data) && response.pagination) {
-                        historyData = response.data;
-                        paginationData = response.pagination;
-                    }
-                    // Add other structure checks if needed
-
-                    if (historyData) {
-                        renderBetHistoryTable(historyData);
-                        renderPagination(paginationData);
-                    } else if (response && Array.isArray(response.data) && response.data.length === 0) {
-                        renderBetHistoryTable([]);
-                        renderPagination(null);
-                    } else {
-                        console.error("History API Error:", response.error || "Unexpected response format.");
-                        historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #ffc107; font-size: 0.37rem;">Could not load history or no records found.</td></tr>');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error fetching bet history:", textStatus, errorThrown, jqXHR.status, jqXHR.responseText);
-                    let errorMsg = 'Failed to load history.';
-                     if(jqXHR.status === 401) { errorMsg = 'Please log in to view history.'; }
-                     else if (jqXHR.status === 404) { errorMsg = 'Error: History API endpoint not found.'; }
-                     else if (jqXHR.status === 500) { errorMsg = 'Server error. Please try again later.';}
-                     else if (jqXHR.status === 400) { errorMsg = 'Error: Invalid request.';}
-                    historyTableBody.html(`<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">${errorMsg} (Status: ${jqXHR.status})</td></tr>`);
-                },
-                complete: function() {
-                     historyIsLoading = false; // Reset loading flag
-                     loadingIndicator.hide();
-                     // Re-enable pagination buttons after load finishes (if needed, though disable logic handles it)
-                     // renderPagination({ currentPage: historyCurrentPage, totalPages: historyTotalPages });
-                }
-            });
-        }
-
-         // --- Fetch User Info (to get phone number) ---
-         async function fetchInitialUserInfoAndHistory() {
-             // Use the correct User Info API endpoint for your application
-             const userInfoApiUrl = '/api/webapi/GetUserInfo'; // Use the same URL as DragonTiger.ejs
-             const tableBody = $('#dragonTigerHistoryTableBody'); // Reference table body for errors
-             const loadingIndicator = $('#dragonTigerHistoryLoading'); // Reference loading indicator
-
-             loadingIndicator.show(); // Show loading indicator
-             tableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">Loading User Info...</td></tr>');
-
-             try {
-                 const response = await fetch(userInfoApiUrl, {
-                     method: 'GET',
-                     headers: { 'Content-Type': 'application/json' },
-                     // Cookies/Auth assumed to be sent automatically
+        // ==================================================
+        // Dragon Tiger Bet History Loading Script (Mobile Page)
+        // Using mechanism similar to DragonTiger.ejs (fetching user info first)
+        // ==================================================
+        $(document).ready(function() {
+    
+            const itemsPerPage = 10;
+            let historyCurrentPage = 1;
+            let historyIsLoading = false;
+            let historyTotalPages = 1;
+            let historyUserPhone = null; // Store phone number globally
+    
+            // --- DOM Element References (Defined Globally within ready scope) ---
+            const historyTableBody = $('#dragonTigerHistoryTableBody');
+            const loadingIndicator = $('#dragonTigerHistoryLoading'); // Defined here
+            const paginationContainer = $('#dragonTigerHistoryPagination'); // Renamed for consistency
+    
+            // --- Helper Functions (Keep as is) ---
+            function formatDate(timestamp) { if (!timestamp) return 'N/A'; try { const d=new Date(timestamp); const h=('0'+d.getHours()).slice(-2); const m=('0'+d.getMinutes()).slice(-2); const s=('0'+d.getSeconds()).slice(-2); return `${h}:${m}:${s}`; } catch(e){return 'Date Err';} }
+            function formatBetCard(card) { if (!card) return 'N/A'; card = card.toLowerCase(); if (card === 'dragon') return '<span class="badge badge-primary">D</span>'; if (card === 'tiger') return '<span class="badge badge-danger">T</span>'; if (card === 'tie') return '<span class="badge badge-success">Tie</span>'; return card; }
+            function formatResult(result) { if (!result || result === 'pending') return '<span class="text-warning">-</span>'; result = result.toLowerCase(); if (result === 'dragon') return '<span class="text-primary font-weight-bold">D</span>'; if (result === 'tiger') return '<span class="text-danger font-weight-bold">T</span>'; if (result === 'tie') return '<span class="text-success font-weight-bold">Tie</span>'; return result; }
+            function formatWinLossAmount(item) { if (!item || item.result === 'pending') { return '<span class="text-muted">-</span>'; } const wa=Number(item.win_amount); const ba=Number(item.amount); return wa > 0 ? `<span class="text-success font-weight-bold">+${wa.toFixed(2)}</span>` : `<span class="text-danger font-weight-bold">-${ba.toFixed(2)}</span>`; }
+    
+            // --- Function to Render Bet History Table ---
+            function renderBetHistoryTable(list) {
+                 historyTableBody.empty();
+                 if (!list || list.length === 0) { historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">No Bet History Found</td></tr>'); return; }
+                 $.each(list, function(index, item) {
+                     const winLossHtml = formatWinLossAmount(item); const resultHtml = formatResult(item.result); const betCardHtml = formatBetCard(item.card);
+                     const betAmount = Number(item.amount || 0).toFixed(2); const timeFormatted = formatDate(item.created_at);
+                     var rowHtml = `<tr><td>${item.roundId || 'N/A'}</td><td>${betCardHtml}</td><td>${betAmount}</td><td>${resultHtml}</td><td>${winLossHtml}</td><td>${timeFormatted}</td></tr>`;
+                     historyTableBody.append(rowHtml);
                  });
-
-                 if (response.ok) {
-                     const result = await response.json();
-                     if (result && result.status === true && result.data && result.data.phone_user) {
-                         console.log("User Info Received, Phone:", result.data.phone_user);
-                         historyUserPhone = result.data.phone_user; // STORE THE PHONE NUMBER GLOBALLY
-                         // Now fetch the history using the obtained phone number
-                         fetchBetHistory(1); // Fetch the first page of history
+            }
+    
+            // --- Function to Render Pagination ---
+             function renderPagination(paginationData) {
+                 paginationContainer.empty();
+                 if (!paginationData || paginationData.totalPages <= 1) return;
+                 const currentPage = paginationData.currentPage; historyTotalPages = paginationData.totalPages;
+                 let prevDisabled = currentPage === 1 ? 'disabled' : '';
+                 paginationContainer.append(`<li class="page-item ${prevDisabled}"><a class="page-link dt-page-link" href="#" data-page="${currentPage - 1}" aria-label="Previous">«</a></li>`);
+                 paginationContainer.append(`<li class="page-item disabled"><span class="page-link" style="color: #333; background: #f0f0f0; border-color: #ddd;">${currentPage} / ${totalPages}</span></li>`);
+                 let nextDisabled = currentPage === totalPages ? 'disabled' : '';
+                 paginationContainer.append(`<li class="page-item ${nextDisabled}"><a class="page-link dt-page-link" href="#" data-page="${currentPage + 1}" aria-label="Next">»</a></li>`);
+                 // Event listener attached below
+             }
+    
+            // --- Function to Fetch Bet History Data via AJAX ---
+            function fetchBetHistory(page = 1) {
+                if (!historyUserPhone) {
+                     console.error("Cannot fetch history: User phone number not available.");
+                     historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">Error: User phone missing. Cannot load history.</td></tr>');
+                     loadingIndicator.hide(); // Use the globally defined indicator
+                     paginationContainer.empty();
+                     return;
+                }
+                if (historyIsLoading) return;
+                historyIsLoading = true;
+                historyCurrentPage = page;
+    
+                loadingIndicator.show(); // Use the globally defined indicator
+                if (page === 1 || historyTableBody.children().length === 0) {
+                     historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">Loading Bet History...</td></tr>');
+                }
+                paginationContainer.empty();
+    
+                // *** Using the API endpoint WITH the fetched phone number ***
+                const apiUrl = `/api/betting-history/${historyUserPhone}?page=${page}&limit=${itemsPerPage}`;
+                console.log("Fetching history from:", apiUrl);
+    
+                $.ajax({
+                    url: apiUrl, type: 'GET', dataType: 'json',
+                    success: function(response) {
+                        console.log("History API Response:", response);
+                        let historyData = null; let paginationData = null;
+                        if (response && Array.isArray(response.data) && response.pagination) { historyData = response.data; paginationData = response.pagination; }
+                        else if (response && response.data && Array.isArray(response.data.list) && response.data.pagination) { historyData = response.data.list; paginationData = response.data.pagination; }
+    
+                        if (historyData) { renderBetHistoryTable(historyData); renderPagination(paginationData); }
+                        else if (response && Array.isArray(response.data) && response.data.length === 0) { renderBetHistoryTable([]); renderPagination(null); }
+                        else if (response && response.data && response.data.list && Array.isArray(response.data.list) && response.data.list.length === 0) { renderBetHistoryTable([]); renderPagination(null); }
+                        else { console.error("History API Error:", response.error || "Unexpected response format."); historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #ffc107; font-size: 0.37rem;">Could not load history or no records found.</td></tr>'); }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error fetching bet history:", textStatus, errorThrown, jqXHR.status, jqXHR.responseText);
+                        let errorMsg = 'Failed to load history.';
+                        if(jqXHR.status === 401) { errorMsg = 'Please log in to view history.'; }
+                        else if (jqXHR.status === 404) { errorMsg = 'Error: History API endpoint not found.'; }
+                        else if (jqXHR.status === 500) { errorMsg = 'Server error. Please try again later.';}
+                        else if (jqXHR.status === 400) { errorMsg = 'Error: Invalid request.';}
+                        historyTableBody.html(`<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">${errorMsg} (Status: ${jqXHR.status})</td></tr>`);
+                    },
+                    complete: function() {
+                         historyIsLoading = false;
+                         loadingIndicator.hide(); // Use the globally defined indicator
+                         // Optionally re-render pagination to ensure buttons are enabled/disabled correctly
+                         // renderPagination({ currentPage: historyCurrentPage, totalPages: historyTotalPages });
+                    }
+                });
+            }
+    
+             // --- Fetch User Info (to get phone number) ---
+             async function fetchInitialUserInfoAndHistory() {
+                 const userInfoApiUrl = '/api/webapi/GetUserInfo';
+    
+                 loadingIndicator.show(); // Use global indicator
+                 historyTableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #969799; font-size: 0.37rem;">Loading User Info...</td></tr>');
+                 paginationContainer.empty(); // Clear pagination while loading info
+    
+                 try {
+                     const response = await fetch(userInfoApiUrl, { /* ... headers/auth handled by browser/client.js ... */ });
+                     if (response.ok) {
+                         const result = await response.json();
+                         if (result && result.status === true && result.data && result.data.phone_user) {
+                             historyUserPhone = result.data.phone_user;
+                             fetchBetHistory(1); // Now fetch history with the obtained phone number
+                         } else {
+                             throw new Error(result.message || "Phone number not found in user info response.");
+                         }
                      } else {
-                         console.error("User Info API Error:", result.message || "Phone number not found in response.");
-                         tableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">Error: Could not get user information.</td></tr>');
-                         loadingIndicator.hide();
+                          throw new Error(`User Info API failed with status ${response.status}`);
                      }
-                 } else {
-                     console.error('User Info API Error:', response.status, await response.text());
-                      let errorMsg = 'Error: Could not fetch user details.';
-                      if (response.status === 401) errorMsg = 'Please log in first.';
-                     tableBody.html(`<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">${errorMsg}</td></tr>`);
-                     loadingIndicator.hide();
+                 } catch (error) {
+                     console.error('Fetch User Info Error (catch block):', error);
+                     historyTableBody.html(`<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">Error fetching user info: ${error.message}</td></tr>`);
+                     loadingIndicator.hide(); // Hide indicator on error
                  }
-             } catch (error) {
-                 console.error('Fetch User Info Error (catch block):', error);
-                 tableBody.html('<tr><td colspan="6" class="text-center" style="padding: 1rem 0; color: #dc3545; font-size: 0.37rem;">Error connecting to fetch user info.</td></tr>');
-                 loadingIndicator.hide();
              }
-         }
-
-        // --- Event Listener for Pagination (Attached Once) ---
-        historyPaginationContainer.on('click', '.dt-page-link', function(e) {
-             e.preventDefault();
-             // Check if the parent li is disabled or if already loading
-             if ($(this).parent().hasClass('disabled') || historyIsLoading) {
-                 return;
-             }
-             const page = $(this).data('page');
-             fetchBetHistory(page); // Fetch the clicked page
-         });
-
-        // --- Initial Load ---
-        fetchInitialUserInfoAndHistory(); // Start by fetching user info
-
-    }); // End of $(document).ready()
-    </script>
+    
+            // --- Event Listener for Pagination (Attached Once to the container) ---
+            paginationContainer.on('click', '.dt-page-link', function(e) {
+                 e.preventDefault();
+                 if ($(this).parent().hasClass('disabled') || historyIsLoading) { return; }
+                 const page = $(this).data('page');
+                 fetchBetHistory(page);
+             });
+    
+            // --- Initial Load ---
+            fetchInitialUserInfoAndHistory(); // Start by fetching user info
+    
+        }); // End of $(document).ready()
+        </script>
 
 </body>
 </html>
