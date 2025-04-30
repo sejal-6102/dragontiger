@@ -1,4 +1,5 @@
 
+
 let resultCoin = 0;
 let userPhone = null;
 let gameInitialized = false;

@@ -57,7 +57,7 @@ const LotteryPage = () => {
         <div className="text-center md:text-left mb-4 md:mb-0">
           <h2 className="text-xl md:text-2xl font-bold text-yellow-300">प्रत्येक रविवार <br /> LUCKY DRAW</h2>
         </div>
-        <img src="https://i.ibb.co/6XK7QgJ/lottery-banner.png" alt="Lottery Banner" className="w-full max-w-md mx-auto" />
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Fbingo-lottery-banner-black-background-colorful-balls-lotto-tickets-confetti_21424757.htm&psig=AOvVaw0wwgClN_sikHJpBS6uzRd3&ust=1746103497849000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKCzp8jk_4wDFQAAAAAdAAAAABAR" alt="Lottery Banner" className="w-full max-w-md mx-auto" />
         <div className="text-center md:text-right mt-4 md:mt-0">
           <h2 className="text-xl md:text-2xl font-bold text-yellow-300">प्रत्येक रविवार <br /> LUCKY DRAW</h2>
         </div>

@@ -7,7 +7,7 @@ import LotteryPage from "./pages/LotteryPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/lottery">
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="/" element={<LotteryPage />} />

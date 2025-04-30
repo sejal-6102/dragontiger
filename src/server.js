@@ -40,6 +40,9 @@ app.use(express.urlencoded({ extended: true }));
 const publicPath = path.resolve(__dirname, '../public'); 
 console.log("Setting static files directory to:", publicPath);
 app.use(express.static(publicPath));
+app.use(express.static(path.join(__dirname, 'lottery/build')));
+// app.use("/lottery/images", express.static(path.join(__dirname, "lottery/build/images")));
+// app.use(express.static(path.join(__dirname, 'build')));
 
 const uploadsPath = path.resolve(__dirname, '../uploads'); 
 console.log("Setting uploads directory to:", uploadsPath);
@@ -75,13 +78,23 @@ Dragon.Dragon(io);
 
 
 cronJobContronler.cronJobGame1p(io);
+app.use('/lottery', express.static(path.join(__dirname, 'lottery/build')));
 
 
-app.all('*', (req, res) => {
+app.get('/lottery', (req, res) => {
+    res.sendFile(path.join(__dirname, 'lottery/build', 'index.html'));
+  });
+
+
+// app.all('*', (req, res) => {
     
-    return res.status(404).send("404 Not Found"); 
-});
+//     return res.status(404).send("404 Not Found"); 
+// });
 
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//   });
+  
 
 server.listen(port,"0.0.0.0", () => {
     console.log(`Server running on http://localhost:${port}`);
