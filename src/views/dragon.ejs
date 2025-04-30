@@ -5,23 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dragon Tiger Game</title>
+    <title>Blue Dollar</title>
     <link rel="stylesheet" href="DragonTiger/assets/css/style.css">
-    <!-- Add some basic styling for the new elements -->
     <style>
         .final-bet-area {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 15px; /* Add some space above */
-            gap: 20px; /* Space between total and button */
+            margin-top: 15px; 
+            gap: 20px; 
             padding: 10px;
         }
 
         #total-pending-bet {
             font-size: 1.1em;
             font-weight: bold;
-            color: #e2e8f0; /* Light text color */
+            color: #e2e8f0; 
             background-color: rgba(0, 0, 0, 0.3);
             padding: 5px 10px;
             border-radius: 5px;
@@ -32,7 +31,7 @@
             font-size: 1.1em;
             font-weight: bold;
             color: #fff;
-            background: linear-gradient(to right, #34d399, #10b981); /* Green gradient */
+            background: linear-gradient(to right, #34d399, #10b981); 
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -41,35 +40,34 @@
         }
 
         #place-final-bet-button:hover:not(:disabled) {
-            background: linear-gradient(to right, #10b981, #059669); /* Darker green */
+            background: linear-gradient(to right, #10b981, #059669); 
         }
 
         #place-final-bet-button:disabled {
-            background: #6b7280; /* Grey when disabled */
+            background: #6b7280; 
             cursor: not-allowed;
             opacity: 0.6;
         }
 
-        /* Ensure coin lock overlays are positioned correctly if needed */
         .coin-button-wrapper {
-           position: relative; /* Needed for absolute positioning of lock inside */
+           position: relative; 
         }
-        .lock-overlay { /* Updated lock styling */
+        .lock-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(40, 40, 40, 0.7); /* Semi-transparent dark */
+            background-color: rgba(40, 40, 40, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #fde047; /* Yellow lock */
-            font-size: 1.5em; /* Adjust size as needed */
-            z-index: 10; /* Ensure it's above the coin image */
-            border-radius: 50%; /* Make it round like the coin */
-            pointer-events: none; /* Clicks should pass through */
-            backdrop-filter: blur(2px); /* Optional blur effect */
+            color: #fde047; 
+            font-size: 1.5em; 
+            z-index: 10; 
+            border-radius: 50%; 
+            pointer-events: none; 
+            backdrop-filter: blur(2px); 
         }
          .lock-overlay::after {
              content: '🔒';
@@ -80,37 +78,36 @@
 
 
 
-        /* --- NEW STYLES FOR BET HISTORY --- */
         .bet-history-section {
-            margin-top: 30px; /* Space above the history */
+            margin-top: 30px; 
             padding: 15px;
-            background-color: rgba(0, 0, 0, 0.2); /* Slightly different background */
+            background-color: rgba(0, 0, 0, 0.2); 
             border-radius: 8px;
-            color: #e2e8f0; /* Light text */
+            color: #e2e8f0; 
         }
         .bet-history-section h3 {
             text-align: center;
             margin-bottom: 15px;
-            color: #fde047; /* Yellowish title */
+            color: #fde047; 
             font-size: 1.3em;
         }
         #history-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            font-size: 0.9em; /* Slightly smaller font */
+            font-size: 0.9em; 
         }
         #history-table th, #history-table td {
-            border: 1px solid #4b5563; /* Darker border */
+            border: 1px solid #4b5563;
             padding: 6px 8px;
             text-align: center;
         }
         #history-table th {
-            background-color: #374151; /* Darker header */
-            color: #facc15; /* Gold header text */
+            background-color: #374151; 
+            color: #facc15; 
         }
         #history-table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05); /* Subtle striping */
+            background-color: rgba(255, 255, 255, 0.05); 
         }
         #history-pagination-controls {
             margin-top: 15px;
@@ -127,7 +124,6 @@
         #history-error-message { color: #f87171; font-weight: bold; text-align: center; margin-top: 10px; }
         #history-loading-message, #history-no-history-message { color: #60a5fa; text-align: center; margin-top: 10px; }
 
-        /* Result styling for history table */
         .history-result-win { color: #34d399; font-weight: bold;} /* Green */
         .history-result-loss { color: #f87171; font-weight: bold;} /* Red */
         .history-result-pending { color: #fbbf24; font-weight: bold;} /* Amber */
@@ -144,10 +140,10 @@
                     💰 <span id="coins"></span>
                 </div>
 
-                <div id="result" class="result-text">Place Your Bet!</div> <!-- Initial Text -->
+                <div id="result" class="result-text">Place Your Bet!</div>
 
                 <div class="timer-container">
-                     <svg class="timer-svg" viewbox="0 0 36 36"> <!-- Adjusted viewbox slightly -->
+                     <svg class="timer-svg" viewbox="0 0 36 36"> 
                         <defs>
                             <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#34d399" />
@@ -158,24 +154,22 @@
                                 <stop offset="100%" stop-color="#ef4444" />
                             </linearGradient>
                             <linearGradient id="greyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#6b7280" /> <!-- Grey gradient start -->
-                                <stop offset="100%" stop-color="#4b5563" /> <!-- Grey gradient end -->
+                                <stop offset="0%" stop-color="#6b7280" /> 
+                                <stop offset="100%" stop-color="#4b5563" /> 
                             </linearGradient>
                         </defs>
-                        <!-- Background circle -->
                         <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                               fill="none"
                               stroke="#374151"
                               stroke-width="2"/>
-                        <!-- Progress circle -->
                         <path id="countdown-circle"
                               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                               fill="none"
                               stroke="url(#greenGradient)"
-                              stroke-width="2.5" <!-- Slightly thicker progress -->
+                              stroke-width="2.5"
                               stroke-linecap="round"
-                              stroke-dasharray="100, 100" <!-- Circumference is ~100 -->
-                              stroke-dashoffset="100" <!-- Start empty -->
+                              stroke-dasharray="100, 100" 
+                              stroke-dashoffset="100" 
                               style="transition: stroke-dashoffset 1s linear;"/>
                     </svg>
                     <div id="countdown" class="countdown-text">30</div>
@@ -213,21 +207,18 @@
             </div>
 
             <div class="bet-buttons-container" id="bet-buttons-container">
-                <!-- Existing Bet Buttons for Dragon, Tie, Tiger -->
                 <button class="bet-button dragon-bet" data-bet="Dragon">
                     <div id="dragon-bet-amount" class="bet-amount">0</div>
                     <div id="" class="bet-amount">2x</div>
                     <div class="animal-placeholder">
                         <img src="/DragonTiger/assets/img/Dragon.png" alt="Dragon" class="animal-image-placeholder" />
                     </div>
-                    <!-- Removed overlay button -->
                     <div id="dragon-lock" class="lock-overlay hidden"></div>
                 </button>
                 <button class="bet-button tie-bet" data-bet="Tie">
                     <div id="tie-bet-amount" class="bet-amount">0</div>
                     <div id="" class="bet-amount">4x</div>
                     <div class="tie-placeholder">Tie</div>
-                    <!-- Removed overlay button -->
                     <div id="tie-lock" class="lock-overlay hidden"></div>
                 </button>
                 <button class="bet-button tiger-bet" data-bet="Tiger">
@@ -236,18 +227,16 @@
                     <div class="animal-placeholder">
                         <img src="/DragonTiger/assets/img/tiger.png" alt="Tiger" class="animal-image-placeholder" />
                     </div>
-                    <!-- Removed overlay button -->
                     <div id="tiger-lock" class="lock-overlay hidden"></div>
                 </button>
             </div>
 
             <div class="coin-buttons-container" id="coin-buttons-container">
-                 <!-- Existing Coin Buttons -->
                 <div class="coin-button-wrapper">
                     <button class="coin-button" data-amount="10">
                         <img src="/DragonTiger/assets/img/coins/10.png" alt="10 Coin" class="coin-image" />
                     </button>
-                     <span class="lock-overlay hidden"></span> <!-- Lock overlay as sibling -->
+                     <span class="lock-overlay hidden"></span>
                 </div>
                  <div class="coin-button-wrapper">
                     <button class="coin-button" data-amount="20">
@@ -281,28 +270,22 @@
                 </div>
             </div>
 
-            <!-- ****** ADDED SECTION for Final Bet Button and Total ****** -->
             <div class="final-bet-area">
-                <span id="total-pending-bet">Total Bet: 0</span> <!-- Optional display -->
+                <span id="total-pending-bet">Total Bet: 0</span> 
                 <button id="place-final-bet-button" disabled>Place Bets</button>
             </div>
-            <!-- ****** END ADDED SECTION ****** -->
 
 
 
 
 
-             <!-- ****** NEW BET HISTORY SECTION ****** -->
-           <!-- ****** NEW BET HISTORY SECTION ****** -->
            <div class="bet-history-section">
             <h3>My Recent Bets</h3>
 
-            <!-- Messages for Loading/Error/No Data -->
             <p id="history-loading-message" style="display: none; text-align: center; margin: 10px 0; color: #ccc;">Loading history...</p>
             <p id="history-error-message" style="display: none; text-align: center; margin: 10px 0; color: #f87171; font-weight: bold;"></p>
             <p id="history-no-history-message" style="display: none; text-align: center; margin: 10px 0; color: #aaa;">No recent bets found.</p>
 
-            <!-- History Table (Initially Hidden) -->
             <table id="history-table" style="display: none; width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em;">
                 <thead>
                     <tr>
@@ -311,27 +294,23 @@
                         <th style="border: 1px solid #4b5563; padding: 7px 5px; background-color: #374151; color: #facc15; text-align: center;">Amount</th>
                         <th style="border: 1px solid #4b5563; padding: 7px 5px; background-color: #374151; color: #facc15; text-align: center;">Result</th>
                         <th style="border: 1px solid #4b5563; padding: 7px 5px; background-color: #374151; color: #facc15; text-align: center;">Win/Loss</th>
-                        <!-- <th style="border: 1px solid #4b5563; padding: 7px 5px; background-color: #374151; color: #facc15; text-align: center;">Time</th> -->
                     </tr>
                 </thead>
                 <tbody id="history-table-body" style="color: #e2e8f0;">
-                    <!-- History rows will be inserted here by JavaScript -->
                 </tbody>
             </table>
 
-            <!-- Pagination Controls (Initially Hidden) -->
             <div id="history-pagination-controls" style="display: none; margin-top: 15px; text-align: center;">
                 <button id="history-prev-button" style="margin: 0 5px; padding: 6px 12px; cursor: pointer; border: 1px solid #fde047; background-color: transparent; color: #fde047; border-radius: 4px; transition: background-color 0.2s ease;" disabled>< Prev</button>
                 <span id="history-page-info" style="margin: 0 10px; font-weight: bold; display: inline-block; min-width: 80px; color: #ccc;">Page 1 of 1</span>
                 <button id="history-next-button" style="margin: 0 5px; padding: 6px 12px; cursor: pointer; border: 1px solid #fde047; background-color: transparent; color: #fde047; border-radius: 4px; transition: background-color 0.2s ease;" disabled>Next ></button>
             </div>
         </div>
-        <!-- ****** END BET HISTORY SECTION ****** -->
-        </div> <!-- End game-card -->
-    </div> <!-- End container -->
+        </div> 
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
-    <script type="module" src="/DragonTiger/assets/js/script.js"></script> <!-- Ensure this path is correct -->
+    <script type="module" src="/DragonTiger/assets/js/script.js"></script> 
 
 
 
@@ -351,7 +330,6 @@
               const result = await response.json();
               console.log('API Response:', result);
       
-              // Check if result contains win_wallet and update the DOMf
               if (result && result.data && result.data.win_wallet !== undefined) {
                 console.log(result,"result hahahhahahhahahs")
                 document.getElementById('coins').textContent = result.data.win_wallet + result.data.money;
@@ -367,7 +345,6 @@
           }
         }
       
-        // Call the function on page load
         window.onload = fetchUserInfo;
       </script>
       

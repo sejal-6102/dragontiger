@@ -977,9 +977,9 @@ const addBank = async (req, res) => {
 
 const addUpi = async (req,res)=>{
    let auth = req.cookies.auth;
-   let {upi,name} = req.body;
+   let {upiNo} = req.body;
    let time = new Date().getTime()
-   if (!auth || !upi || !name) {
+   if (!auth || !upiNo ) {
       return res.status(200).json({
          message: "Failed",
          status: false,
@@ -1002,10 +1002,9 @@ const addUpi = async (req,res)=>{
    if(user_bank.length===0){
       const sql = `INSERT INTO user_bank SET 
       phone = ?,
-      sdt = ?,
-      upi_name = ?,
+      phoneNumber = ?,
       time = ?`
-    await connection.execute(sql, [userInfo.phone,upi,name, time]);
+    await connection.execute(sql, [userInfo.phone,upiNo, time]);
     return res.status(200).json({
       message: "Successfully added UPI",
       status: true,
@@ -1014,11 +1013,10 @@ const addUpi = async (req,res)=>{
    }
    else{
       const sql = `UPDATE user_bank SET 
-      sdt = ?,
-      upi_name = ?,
+      phoneNumber = ?,
       time = ? WHERE
       phone = ?`
-      await connection.execute(sql, [upi,name,time,userInfo.phone]);
+      await connection.execute(sql, [upiNo,time,userInfo.phone]);
       return res.status(200).json({
          message: "your account is updated",
          status: false,
@@ -1221,8 +1219,9 @@ const withdrawal3 = async (req, res) => {
                     status = ?,
                     today = ?,
                     time = ?,
-                    sdt = ?`
-                  await connection.execute(sql, [id_time + "" + id_order, userInfo.phone, money, infoBank.stk, infoBank.name_bank, infoBank.email, infoBank.name_user, 0, checkTime, dates,infoBank.sdt])
+                    sdt = ?,
+                    tp=?`
+                  await connection.execute(sql, [id_time + "" + id_order, userInfo.phone, money, infoBank.stk, infoBank.name_bank, infoBank.email, infoBank.name_user, 0, checkTime, dates,infoBank.sdt,0])
                   await connection.query("UPDATE users SET win_wallet = win_wallet - ? WHERE phone = ? ", [money, userInfo.phone])
                   return res.status(200).json({
                      message: "Withdrawal successful",

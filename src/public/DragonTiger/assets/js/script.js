@@ -27,138 +27,192 @@ let historyNextButton = null;
 let historyPageInfo = null;
 
 function setupHistoryDOMElements() {
-    if (!historyTableBody) {
-        historyTableBody = document.getElementById("history-table-body");
-    }
-    if (!historyLoadingMessage) {
-        historyLoadingMessage = document.getElementById("history-loading-message");
-    }
-    if (!historyErrorMessage) {
-        historyErrorMessage = document.getElementById("history-error-message");
-    }
-    if (!historyNoHistoryMessage) {
-        historyNoHistoryMessage = document.getElementById("history-no-history-message");
-    }
-    if (!historyTable) {
-        historyTable = document.getElementById("history-table");
-    }
-    if (!historyPaginationControls) {
-        historyPaginationControls = document.getElementById("history-pagination-controls");
-    }
-    if (!historyPrevButton) {
-        historyPrevButton = document.getElementById("history-prev-button");
-        if (historyPrevButton && !historyPrevButton.dataset.listenerAttached) {
-            historyPrevButton.addEventListener('click', () => {
-                if (historyCurrentPage > 1 && !historyIsLoading) {
-                    fetchBetHistory(historyUserPhone, historyCurrentPage - 1);
-                }
-            });
-            historyPrevButton.dataset.listenerAttached = 'true';
-        }
-    }
-    if (!historyNextButton) {
-        historyNextButton = document.getElementById("history-next-button");
-        if (historyNextButton && !historyNextButton.dataset.listenerAttached) {
-            historyNextButton.addEventListener('click', () => {
-                if (historyCurrentPage < historyTotalPages && !historyIsLoading) {
-                    fetchBetHistory(historyUserPhone, historyCurrentPage + 1);
-                }
-            });
-            historyNextButton.dataset.listenerAttached = 'true';
-        }
-    }
-    if (!historyPageInfo) {
-        historyPageInfo = document.getElementById("history-page-info");
+    // Select elements and check if they exist afterwards
+    if (!historyTableBody) historyTableBody = document.getElementById("history-table-body");
+    if (!historyLoadingMessage) historyLoadingMessage = document.getElementById("history-loading-message");
+    if (!historyErrorMessage) historyErrorMessage = document.getElementById("history-error-message");
+    if (!historyNoHistoryMessage) historyNoHistoryMessage = document.getElementById("history-no-history-message");
+    if (!historyTable) historyTable = document.getElementById("history-table");
+    if (!historyPaginationControls) historyPaginationControls = document.getElementById("history-pagination-controls");
+    if (!historyPrevButton) historyPrevButton = document.getElementById("history-prev-button");
+    if (!historyNextButton) historyNextButton = document.getElementById("history-next-button");
+    if (!historyPageInfo) historyPageInfo = document.getElementById("history-page-info");
+
+    // Log missing elements for debugging (helps identify HTML issues)
+    if (!historyTableBody) console.error("setupHistoryDOMElements: history-table-body NOT FOUND!");
+    if (!historyLoadingMessage) console.error("setupHistoryDOMElements: history-loading-message NOT FOUND!");
+    if (!historyErrorMessage) console.error("setupHistoryDOMElements: history-error-message NOT FOUND!");
+    if (!historyNoHistoryMessage) console.error("setupHistoryDOMElements: history-no-history-message NOT FOUND!");
+    if (!historyTable) console.error("setupHistoryDOMElements: history-table NOT FOUND!");
+    if (!historyPaginationControls) console.error("setupHistoryDOMElements: history-pagination-controls NOT FOUND!");
+    if (!historyPrevButton) console.warn("setupHistoryDOMElements: history-prev-button not found yet.");
+    if (!historyNextButton) console.warn("setupHistoryDOMElements: history-next-button not found yet.");
+    if (!historyPageInfo) console.error("setupHistoryDOMElements: history-page-info NOT FOUND!");
+
+
+    // Attach listeners only ONCE and only if buttons exist
+    if (historyPrevButton && historyNextButton && !historyListenersAttached) {
+        console.log("Attaching history pagination listeners.");
+
+        historyPrevButton.addEventListener('click', () => {
+            // Check state BEFORE calling fetch
+            if (!historyPrevButton.disabled && historyCurrentPage > 1 && !historyIsLoading) {
+                console.log("Prev button clicked, fetching page:", historyCurrentPage - 1);
+                fetchBetHistory(historyUserPhone, historyCurrentPage - 1); // Use historyUserPhone
+            } else {
+                 console.log("Prev button click ignored. State:", {
+                    disabled: historyPrevButton.disabled,
+                    page: historyCurrentPage,
+                    loading: historyIsLoading
+                 });
+            }
+        });
+
+        historyNextButton.addEventListener('click', () => {
+            // Check state BEFORE calling fetch
+            if (!historyNextButton.disabled && historyCurrentPage < historyTotalPages && !historyIsLoading) {
+                console.log("Next button clicked, fetching page:", historyCurrentPage + 1);
+                fetchBetHistory(historyUserPhone, historyCurrentPage + 1); // Use historyUserPhone
+            } else {
+                 console.log("Next button click ignored. State:", {
+                    disabled: historyNextButton.disabled,
+                    page: historyCurrentPage,
+                    totalPages: historyTotalPages,
+                    loading: historyIsLoading
+                 });
+            }
+        });
+
+        historyListenersAttached = true; // Mark as attached
+    } else if (historyListenersAttached) {
+        // console.log("History listeners already attached."); // Optional log
+    } else if (!historyListenersAttached && (!historyPrevButton || !historyNextButton)) {
+         // Log a warning if buttons weren't found yet
+         console.warn("Could not attach history listeners - Prev/Next button not found yet. Will retry on next setup call.");
     }
 }
 
+// =====================================================
 async function fetchBetHistory(phone, page = 1) {
-    if (!historyTableBody || !historyLoadingMessage || !historyErrorMessage || !historyNoHistoryMessage || !historyTable || !historyPaginationControls) {
-        console.warn("Attempted to fetch history, but DOM elements not ready. Running setup again.");
-        setupHistoryDOMElements(); 
-         if (!historyTableBody) { 
-              console.error("History DOM elements could not be found. Cannot fetch history.");
-              return;
-         }
-    }
+    setupHistoryDOMElements(); // Ensure elements are selected/attempted
 
-    if (!phone || (historyIsLoading /* && page > 1 */ ) ) { 
-        console.log("Bet history fetch skipped. Phone:", phone, "Loading:", historyIsLoading);
+    // --- Pre-fetch Checks ---
+    // Check if essential elements for this function are available NOW
+    if (!historyLoadingMessage || !historyErrorMessage || !historyNoHistoryMessage || !historyTableBody || !historyTable) {
+         console.error("fetchBetHistory cannot run: Critical DOM elements for UI update are missing.");
+         // Attempting to update pagination state even if table elements are missing
+         if(historyPaginationControls) updateHistoryPagination({ currentPage: historyCurrentPage, totalPages: historyTotalPages });
+         return; // Stop if critical elements aren't ready
+    }
+     // Check if phone number is valid
+     if (!phone) {
+        console.warn("fetchBetHistory called without a valid phone number.");
+        if (historyTableBody) historyTableBody.innerHTML = ''; // Clear table
+        if (historyTable) historyTable.style.display = 'none'; // Hide table
+        if (historyLoadingMessage) historyLoadingMessage.style.display = 'none';
+        if (historyErrorMessage) historyErrorMessage.style.display = 'none';
+        if (historyNoHistoryMessage) {
+            historyNoHistoryMessage.textContent = "User information needed to load history."; // More specific message
+            historyNoHistoryMessage.style.display = 'block';
+        }
+        historyUserPhone = null;
+        updateHistoryPagination({ currentPage: 1, totalPages: 0 }); // Reset pagination UI
+        return; // Stop execution
+    }
+    // Prevent concurrent fetches
+    if (historyIsLoading) {
+        console.log(`Bet history fetch skipped for page ${page}. Already loading.`);
         return;
     }
+    // --- End Pre-fetch Checks ---
 
+
+    console.log(`Attempting to fetch history for phone ${phone}, page: ${page}`);
     historyIsLoading = true;
-    historyUserPhone = phone; 
+    historyUserPhone = phone; // Track phone used
 
-    if (page === 1) {
-         historyCurrentPage = 1; 
-    } else {
-         historyCurrentPage = page; 
-    }
-
-
-    const isIntervalFetch = page === 1 && historyRefreshIntervalId !== null;
-
-    if (!isIntervalFetch) { 
-        historyLoadingMessage.style.display = 'block';
-        historyErrorMessage.style.display = 'none';
-        historyNoHistoryMessage.style.display = 'none';
-        historyTable.style.display = 'none';
-        historyPaginationControls.style.display = 'none';
-    }
-    if (page === 1) {
-       historyTableBody.innerHTML = '';
-    }
+    // --- Update UI for Loading State ---
+    updateHistoryPagination(null); // Disable pagination buttons immediately
+    if (historyLoadingMessage) historyLoadingMessage.style.display = 'block';
+    if (historyErrorMessage) historyErrorMessage.style.display = 'none';
+    if (historyNoHistoryMessage) historyNoHistoryMessage.style.display = 'none';
+    // Optionally hide the table during load to prevent seeing old data briefly
+    // if (historyTable) historyTable.style.display = 'none';
 
 
-    // const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
-    const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`;
+    // --- API Call ---
+    // const historyApiUrl = `https://bluedoller.online/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`; // Production
+    const historyApiUrl = `http://localhost:3000/api/betting-history/${phone}?page=${page}&limit=${historyItemsPerPage}`; // Local
+    let fetchedPaginationData = null; // Store successful pagination data
 
     try {
-        if (!isIntervalFetch) console.log(`Fetching bet history: ${historyApiUrl}`);
         const response = await fetch(historyApiUrl);
+        const result = await response.json(); // Parse JSON
 
-        if (response.ok) {
-            const result = await response.json();
+        console.log("Raw History API Response:", { status: response.status, body: result });
 
-            if (result && result.pagination && result.data) {
-                historyTotalPages = result.pagination.totalPages || 1;
+        // --- Handle Response ---
+        if (response.ok && result && result.pagination && typeof result.pagination.currentPage === 'number' && typeof result.pagination.totalPages === 'number' && Array.isArray(result.data)) {
+            // --- Success Case ---
+            console.log(`History fetch successful for page: ${result.pagination.currentPage}, Total Pages: ${result.pagination.totalPages}`);
 
-                if (result.data.length > 0) {
-                    displayHistoryPage(result.data);
-                    updateHistoryPagination(result.pagination); 
-                    historyTable.style.display = 'table';
-                    historyPaginationControls.style.display = 'block'; 
-                    historyNoHistoryMessage.style.display = 'none'; 
-                } else {
-                     if (page === 1) { 
-                        historyNoHistoryMessage.style.display = 'block';
-                        historyTable.style.display = 'none'; 
-                        historyPaginationControls.style.display = 'none'; 
-                     }
-                    updateHistoryPagination({ currentPage: page, totalPages: historyTotalPages }); 
-                }
+            // Update state variables from successful response
+            historyCurrentPage = result.pagination.currentPage;
+            historyTotalPages = result.pagination.totalPages > 0 ? result.pagination.totalPages : 1;
+            fetchedPaginationData = result.pagination; // Store for finally block
+
+            // Display data or "No History" message
+            if (result.data.length > 0) {
+                displayHistoryPage(result.data); // Assumes this function exists and works
+                if (historyTable) historyTable.style.display = 'table';
+                if (historyNoHistoryMessage) historyNoHistoryMessage.style.display = 'none';
             } else {
-                 console.error('Invalid history API response structure:', result);
-                 historyErrorMessage.textContent = 'Received invalid history data.';
-                 historyErrorMessage.style.display = 'block';
-                 updateHistoryPagination({ currentPage: 1, totalPages: 0 });
+                // Success, but no data for this page
+                if (historyTableBody) historyTableBody.innerHTML = '';
+                if (historyTable) historyTable.style.display = 'none';
+                if (historyNoHistoryMessage) {
+                    historyNoHistoryMessage.textContent = page === 1 ? "No recent bets found." : "No more bets found.";
+                    historyNoHistoryMessage.style.display = 'block';
+                }
             }
+            // Ensure error message is hidden on success
+            if (historyErrorMessage) historyErrorMessage.style.display = 'none';
+
         } else {
-            const errorText = await response.text();
-            console.error('API Error fetching bet history:', response.status, errorText);
-            historyErrorMessage.textContent = `Error fetching history (${response.status}). Please try again later.`;
-            historyErrorMessage.style.display = 'block';
-            updateHistoryPagination({ currentPage: 1, totalPages: 0 });
+            // --- API Error or Invalid Data Structure ---
+            console.error('Invalid history API response or non-OK status:', { status: response.status, result });
+            if (historyErrorMessage) { // Check if element exists before using
+                historyErrorMessage.textContent = `Error: ${result.message || `Failed to load history (${response.status})`}`;
+                historyErrorMessage.style.display = 'block';
+            }
+            if (historyTable) historyTable.style.display = 'none';
+            if (historyNoHistoryMessage) historyNoHistoryMessage.style.display = 'none';
+            // Keep previous pagination state on error
+            fetchedPaginationData = { currentPage: historyCurrentPage, totalPages: historyTotalPages };
         }
     } catch (error) {
-        console.error('Fetch Bet History Error:', error);
-        historyErrorMessage.textContent = 'Could not connect to fetch history. Please check connection.';
-        historyErrorMessage.style.display = 'block';
-        updateHistoryPagination({ currentPage: 1, totalPages: 0 });
+        // --- Network or Fetch Exception ---
+        console.error('Fetch Bet History Exception:', error);
+        if (historyErrorMessage) { // Check if element exists before using
+            historyErrorMessage.textContent = 'Network error connecting to history service.';
+            historyErrorMessage.style.display = 'block';
+        }
+        if (historyTable) historyTable.style.display = 'none';
+        if (historyNoHistoryMessage) historyNoHistoryMessage.style.display = 'none';
+        // Reset pagination state completely on network error
+        historyCurrentPage = 1;
+        historyTotalPages = 0;
+        fetchedPaginationData = { currentPage: historyCurrentPage, totalPages: historyTotalPages };
     } finally {
-        historyIsLoading = false; 
-        if (historyLoadingMessage && !isIntervalFetch) historyLoadingMessage.style.display = 'none'; 
+        // --- Cleanup and Final UI Update ---
+        historyIsLoading = false; // <<< Release loading flag
+        if(historyLoadingMessage) historyLoadingMessage.style.display = 'none'; // Hide loading indicator
+
+        // Update pagination controls based on the final state
+        // Use fetchedPaginationData if available (from success or kept state on API error),
+        // otherwise use the potentially reset state from catch block.
+        updateHistoryPagination(fetchedPaginationData || { currentPage: historyCurrentPage, totalPages: historyTotalPages });
+        console.log("History fetch finished. State:", { loading: historyIsLoading, page: historyCurrentPage, total: historyTotalPages });
     }
 }
 
@@ -198,22 +252,37 @@ function displayHistoryPage(historyData) {
 }
 
 function updateHistoryPagination(pagination) {
-    if (!historyPageInfo || !historyPrevButton || !historyNextButton || !historyPaginationControls) return;
+    setupHistoryDOMElements(); // Ensure elements are available
+    if (!historyPageInfo || !historyPrevButton || !historyNextButton || !historyPaginationControls) {
+        return; // Exit if elements aren't ready
+    }
 
-    if (pagination && pagination.totalPages > 0) {
-        historyPageInfo.textContent = `Page ${pagination.currentPage} of ${pagination.totalPages}`;
-        historyPrevButton.disabled = pagination.currentPage <= 1 || historyIsLoading;
-        historyNextButton.disabled = pagination.currentPage >= pagination.totalPages || historyIsLoading;
-        if (historyTable && historyTable.style.display !== 'none') {
-             historyPaginationControls.style.display = 'block';
-        } else {
-             historyPaginationControls.style.display = 'none';
-        }
+    let currentPageToShow = historyCurrentPage;
+    let totalPagesToShow = historyTotalPages;
+    let isLoading = historyIsLoading || (pagination === null); // Consider null as loading
+
+    // Use data from argument if valid pagination object is passed
+    if (pagination && typeof pagination.currentPage === 'number' && typeof pagination.totalPages === 'number') {
+        currentPageToShow = pagination.currentPage;
+        totalPagesToShow = pagination.totalPages;
+    }
+
+    // console.log(`Updating pagination display: Page=${currentPageToShow}, Total=${totalPagesToShow}, Loading=${isLoading}`); // Debug log
+
+    if (totalPagesToShow > 0) {
+        historyPageInfo.textContent = `Page ${currentPageToShow} of ${totalPagesToShow}`;
+        // Disable logic: Disable if loading OR at boundary
+        historyPrevButton.disabled = isLoading || currentPageToShow <= 1;
+        historyNextButton.disabled = isLoading || currentPageToShow >= totalPagesToShow;
+
+        // Show controls only if more than one page exists
+        historyPaginationControls.style.display = totalPagesToShow > 1 ? 'block' : 'none';
     } else {
+        // No pages or error state
         historyPageInfo.textContent = 'Page 0 of 0';
         historyPrevButton.disabled = true;
         historyNextButton.disabled = true;
-        historyPaginationControls.style.display = 'none'; 
+        historyPaginationControls.style.display = 'none';
     }
 }
 
@@ -268,19 +337,24 @@ async function fetchUserInfo() {
                 resultCoin = fetchedCoins;
                 userPhone = fetchedPhone; // Update global userPhone
 
-                if (fetchedPhone && fetchedPhone !== historyUserPhone) {
-                    console.log("User info fetched, triggering initial bet history fetch for:", fetchedPhone);
-                    fetchBetHistory(fetchedPhone, 1); // Initial fetch for this user
-                    // Don't start interval here, wait for game state update
-                } else if (!fetchedPhone) {
-                    console.warn("User phone number not found, clearing history display.");
-                    if (historyTableBody) historyTableBody.innerHTML = '';
-                    if (historyNoHistoryMessage) historyNoHistoryMessage.style.display = 'block';
-                    if (historyTable) historyTable.style.display = 'none';
-                    if (historyPaginationControls) historyPaginationControls.style.display = 'none';
-                    historyUserPhone = null;
-                    stopHistoryRefreshInterval(); // Stop interval if user logs out/phone disappears
-                }
+                // Inside fetchUserInfo, after getting fetchedPhone successfully:
+if (userPhone !== fetchedPhone) { // Check if phone has changed or is set initially
+    console.log(`User phone changed/set: New='${fetchedPhone}', Old='${userPhone}'`);
+    userPhone = fetchedPhone; // Update global phone
+
+    if (userPhone) {
+        // New valid phone number
+        historyCurrentPage = 1; // <<< RESET page for new user
+        historyTotalPages = 1; // <<< RESET total pages
+        historyUserPhone = userPhone; // Update history phone tracker
+        fetchBetHistory(userPhone, 1); // <<< Fetch initial history
+    } else {
+        // Phone became null
+        // ... (clear history display code) ...
+         historyUserPhone = null;
+         updateHistoryPagination({ currentPage: 1, totalPages: 0 }); // Reset pagination UI
+    }
+}
             } else {
                 console.warn('win_wallet not found in successful API response.');
                 stopHistoryRefreshInterval(); // Stop interval if data invalid
@@ -415,7 +489,7 @@ function initGame(startingCoins, userPhoneNoParam) {
         }
         if (countdownCircle) {
             const circumference = 100; // Adjusted if using r=15.9155
-            const maxTime = 30;
+            const maxTime = 20;
             const offset = ((maxTime - Math.max(0, countdown)) / maxTime) * circumference;
             // Correct application for SVG stroke-dashoffset (starts full, goes to 0)
             countdownCircle.style.strokeDashoffset = circumference - offset;

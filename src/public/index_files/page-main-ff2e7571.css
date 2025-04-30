@@ -5447,7 +5447,7 @@
 .redeem-container-receive[data-v-3b4d4aab] {
     height: 7.33333rem;
     width: calc(100% - .64rem);
-    background: #769bff;
+    background: rgb(141, 9, 9);
     border-radius: .26667rem;
     display: -webkit-box;
     display: -webkit-flex;
@@ -5509,11 +5509,11 @@
     height: .93333rem;
     line-height: .93333rem;
     text-align: center;
-    background: -webkit-linear-gradient(top,#fff 0%,#769bff 100%);
-    background: linear-gradient(180deg,#ffF 0%,#76fbff 100%);
+    background: -webkit-linear-gradient(top,#902a2a 0%,rgb(141, 9, 9) 100%);
+    background: linear-gradient(180deg,#302f2f 0%,rgb(8, 7, 7) 100%);
     border-radius: 1.06667rem;
     font-size: .4rem;
-    color: #8f5206;
+    color: #fbfaf8;
     border: none;
     margin-top: .74667rem
 }

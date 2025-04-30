@@ -1,4 +1,4 @@
-let currentSecond = 30;
+let currentSecond = 20;
 let inRevealPhase = false;
 let currentPhaseName = "betting";
 let currentRoundId = generate10DigitId(); // Initial round ID
@@ -10,7 +10,7 @@ function generate10DigitId() {
 // Initial game data structure
 let gameData = {
     gstatus: "1", // Start in betting state
-    timer: 30,
+    timer: 20,
     match_id: "D/TId", // Or generate dynamically if needed
     roundId: currentRoundId,
     title: "20-20 Dragon Tiger 2",
@@ -39,7 +39,7 @@ function getRandomElement(arr) {
 
 function resetGameState() {
     console.log(`[GameState] Resetting state. Previous Round ID: ${currentRoundId}`);
-    currentSecond = 30; // Reset betting timer
+    currentSecond = 20; // Reset betting timer
     inRevealPhase = false;
     currentPhaseName = "betting";
     currentRoundId = generate10DigitId(); // Generate NEW round ID for the new game
@@ -48,7 +48,7 @@ function resetGameState() {
     gameData = {
         ...gameData, // Keep existing static data like title, market, match_id
         gstatus: "1", // Set status back to betting
-        timer: 30,
+        timer: 20,
         roundId: currentRoundId // Assign the new round ID
     };
     console.log(`[GameState] New Round Started. Round ID: ${currentRoundId}`);
