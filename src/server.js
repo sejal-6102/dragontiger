@@ -1,6 +1,6 @@
 
 require('dotenv/config'); 
-require('dotenv').config({ path: '../.env' }); 
+require('dotenv').config(); 
 
 const express = require('express');
 const http = require('http');      
